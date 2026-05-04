@@ -28,13 +28,6 @@ SCOPE_ORDER = [
     ("train_fire_top20pct", "top 20\\%"),
 ]
 
-FIREPRONE_TABLE_SCOPE_ORDER = [
-    ("train_fire_top05pct", "top 5\\%"),
-    ("train_fire_top10pct", "top 10\\%"),
-    ("train_fire_top20pct", "top 20\\%"),
-]
-
-
 def load_fireprone_summary() -> dict[tuple[str, str], dict]:
     data = json.loads((ARTIFACTS / "fireprone_contract_progression_summary.raw.json").read_text())
     return {(row["model_tag"], row["scope"]): row for row in data["summary"]}
@@ -47,7 +40,7 @@ def build_fireprone_contract_progression() -> None:
         r"    \centering",
         r"    \scriptsize",
         r"    \setlength{\tabcolsep}{4pt}",
-        r"    \caption{Occupancy \(F_1\) scores across fire-prone scopes. Top-\(k\) rows use train-defined fire-prone masks from historical fire frequency. Values are percentages from the same validation-selected strict threshold. Tolerance is spatial-only; union adds temporal and spatial matching. \(\Delta\) is union minus strict. Cells report five-seed mean with std in small type.}",
+        r"    \caption{Occupancy \(F_1\) scores across global and fire-prone scopes. Global uses the full validation/test domain; top-\(k\) rows use train-defined fire-prone masks from historical fire frequency. Values are percentages from the same validation-selected strict threshold. Tolerance is spatial-only; union adds temporal and spatial matching. \(\Delta\) is union minus strict. Cells report five-seed mean with std in small type.}",
         r"    \label{tab:fireprone_contract_progression}",
         r"    \begin{adjustbox}{max width=\textwidth}",
         r"    \begin{tabular}{@{}llcccc@{}}",
@@ -56,7 +49,7 @@ def build_fireprone_contract_progression() -> None:
         r"        \midrule",
     ]
     for model_tag, label in MODEL_TAG_ORDER:
-        for idx, (scope, scope_label) in enumerate(FIREPRONE_TABLE_SCOPE_ORDER):
+        for idx, (scope, scope_label) in enumerate(SCOPE_ORDER):
             row = by_key[(model_tag, scope)]
             name = label if idx == 0 else ""
             cells = [
