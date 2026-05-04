@@ -23,13 +23,6 @@ tables:
     inputs:
       - artifacts/results/fireprone_contract_progression_summary.raw.json
     description: Appendix predicted-positive-rate table by scope.
-  tab:app_analog_extra_values:
-    output: paper_outputs/tables/table_appendix_additional_values.tex
-    builder: scripts/build_tables.py
-    inputs:
-      - artifacts/results/appendix_additional_value_tables.raw.json
-    description: Appendix analog-retrieval supplementary values not shown in the main table.
-
 figures:
   fig:fireprone_contract_progression:
     output: paper_outputs/figures/fig_fireprone_contract_progression_compact.pdf

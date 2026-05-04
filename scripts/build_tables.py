@@ -108,46 +108,8 @@ def build_occupancy_ppr() -> str:
     return "\n".join(lines)
 
 
-def build_analog_extra() -> str:
-    data = json.loads((ARTIFACTS / "appendix_additional_value_tables.raw.json").read_text())
-    rows = data["tables"]["tab:app_analog_extra_values"]
-    lines = [
-        r"\begin{table}[t]",
-        r"\centering",
-        r"\small",
-        r"\setlength{\tabcolsep}{4pt}",
-        r"\renewcommand{\arraystretch}{1.18}",
-        r"\caption{Analog retrieval supplementary values.",
-        r"nDCG@5 and Spearman \(\rho\) are higher-better; best log gap is lower-better.",
-        r"Cells report five-seed mean with std in small type.}",
-        r"\label{tab:app_analog_extra_values}",
-        r"\begin{adjustbox}{max width=\textwidth}",
-        r"\begin{tabular}{lccc}",
-        r"\toprule",
-        r"\textbf{Backbone} & \textbf{nDCG@5\(\uparrow\)} & \textbf{Spearman \(\rho\uparrow\)} & \textbf{Best log gap\(\downarrow\)} \\",
-        r"\midrule",
-    ]
-    for row in rows:
-        cells = [
-            ms_from_summary(row["ndcg_at_5"]),
-            ms_from_summary(row["log_spearman"]),
-            ms_from_summary(row["mean_best_abs_log_delta_at_k"]),
-        ]
-        lines.append(row["label"] + " & " + " & ".join(cells) + r" \\")
-    lines.extend(
-        [
-            r"\bottomrule",
-            r"\end{tabular}",
-            r"\end{adjustbox}",
-            r"\end{table}",
-            "",
-        ]
-    )
-    return "\n".join(lines)
-
-
 def build_appendix_additional_values() -> None:
-    (OUT_TABLES / "table_appendix_additional_values.tex").write_text(build_occupancy_ppr() + "\n" + build_analog_extra())
+    (OUT_TABLES / "table_appendix_additional_values.tex").write_text(build_occupancy_ppr())
 
 
 def build_primary_results() -> None:
