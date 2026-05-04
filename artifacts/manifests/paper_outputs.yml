@@ -16,7 +16,7 @@ tables:
     builder: scripts/build_tables.py
     inputs:
       - artifacts/results/fireprone_contract_progression_summary.raw.json
-    description: Global/top-5/top-10/top-20 occupancy matching-rule sweep.
+    description: Top-5/top-10/top-20 fire-prone occupancy matching-rule sweep.
   tab:app_occupancy_ppr_scope:
     output: paper_outputs/tables/table_appendix_additional_values.tex
     builder: scripts/build_tables.py
