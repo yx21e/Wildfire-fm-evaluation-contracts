@@ -52,14 +52,15 @@ def audit_tex_cells() -> list[str]:
         by_cell: dict[tuple[str, str], list[int]] = defaultdict(list)
         for idx, (mean, std) in enumerate(cells, start=1):
             by_cell[(mean, std)].append(idx)
+            if not re.fullmatch(r"-?\d+\.\d{4}", mean):
+                issues.append(f"{path.relative_to(ROOT)} cell {idx} mean is not four decimals: {mean}")
+            if not re.fullmatch(r"-?\d+\.\d{4}", std):
+                issues.append(f"{path.relative_to(ROOT)} cell {idx} std is not four decimals: {std}")
             if std == "0.0000":
                 issues.append(f"{path.relative_to(ROOT)} cell {idx} displays zero std: {mean}+/-{std}")
-        # Identical cells are allowed in the primary/supporting headline tables only when
-        # they are documented same-run rows. The appendix value tables are stricter.
-        if path.name.startswith("table_appendix"):
-            for cell, idxs in by_cell.items():
-                if len(idxs) > 1:
-                    issues.append(f"{path.relative_to(ROOT)} repeats displayed cell {cell} at positions {idxs}")
+        for cell, idxs in by_cell.items():
+            if len(idxs) > 1:
+                issues.append(f"{path.relative_to(ROOT)} repeats displayed cell {cell} at positions {idxs}")
     return issues
 
 
