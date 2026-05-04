@@ -28,3 +28,115 @@ AlphaEarth & \ms{0.0691}{0.0499} & \ms{0.2826}{0.1497} & \ms{0.1524}{0.0770} & \
 \end{tabular}
 \end{adjustbox}
 \end{table*}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Final burned-area error-shape check. This table adds median and acre-scale errors beyond the main log-RMSE/log-MAE/Spearman columns. Cells report mean with small std.}
+\label{tab:app_burned_area_error_shape}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccc}
+\toprule
+Backbone & log median AE & acre median AE & acre MAPE \\
+\midrule
+Reference & \ms{1.0235}{0.0982} & \ms{4504.0692}{459.0483} & \ms{1.4525}{0.0254} \\
+Prithvi-WxC & \ms{1.2184}{0.2107} & \ms{5375.8770}{788.7906} & \ms{1.9517}{0.2875} \\
+Aurora & \ms{1.4547}{0.0301} & \ms{9904.9483}{457.4260} & \ms{6.8728}{3.0026} \\
+ClimaX & \ms{1.6841}{0.1818} & \ms{18130.4820}{3248.3873} & \ms{8.2373}{2.8540} \\
+StormCast & \ms{1.4522}{0.1519} & \ms{11155.7881}{2020.8656} & \ms{4.6142}{1.1500} \\
+Pangu24 & \ms{1.2855}{0.1600} & \ms{6110.3909}{690.6115} & \ms{2.2253}{0.4160} \\
+DLWP & \ms{1.0952}{0.1306} & \ms{4406.9315}{303.0944} & \ms{1.7357}{0.3625} \\
+FCN & \ms{1.1688}{0.1139} & \ms{5166.9993}{213.0333} & \ms{2.0800}{0.4004} \\
+FengWu & \ms{1.1589}{0.1772} & \ms{5137.2822}{628.7543} & \ms{2.0944}{0.4545} \\
+FuXi & \ms{1.1855}{0.0612} & \ms{5697.7117}{796.8785} & \ms{2.4411}{0.5567} \\
+Pangu-Weather & \ms{1.1221}{0.1470} & \ms{5092.3621}{483.8243} & \ms{1.9571}{0.3113} \\
+AlphaEarth & \ms{1.7459}{0.6057} & \ms{15110.7573}{7106.3417} & \ms{9.7398}{2.7425} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Analog retrieval diagnostic check. This table adds nDCG@5, best log gap, and rank correlation beyond the main nDCG@10/log-RMSE/log-MAE columns. Cells report mean with small std.}
+\label{tab:app_analog_rank_depth}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccc}
+\toprule
+Backbone & nDCG@5 & best log gap & rank $\rho$ \\
+\midrule
+Reference & \ms{0.5175}{0.0445} & \ms{0.1868}{0.0285} & \ms{0.6019}{0.1460} \\
+Prithvi-WxC & \ms{0.3591}{0.0107} & \ms{0.2151}{0.0594} & \ms{0.1514}{0.1489} \\
+Aurora & \ms{0.4423}{0.0210} & \ms{0.1551}{0.0437} & \ms{0.2162}{0.1856} \\
+ClimaX & \ms{0.4151}{0.0293} & \ms{0.2129}{0.0653} & \ms{0.1587}{0.2831} \\
+StormCast & \ms{0.3960}{0.0240} & \ms{0.1714}{0.0310} & \ms{0.1258}{0.1625} \\
+Pangu24 & \ms{0.3776}{0.0383} & \ms{0.2442}{0.0533} & \ms{-0.1661}{0.3081} \\
+DLWP & \ms{0.3795}{0.0274} & \ms{0.1944}{0.0807} & \ms{-0.3865}{0.2802} \\
+FCN & \ms{0.4250}{0.0112} & \ms{0.1856}{0.0846} & \ms{-0.1357}{0.2571} \\
+FengWu & \ms{0.4228}{0.0310} & \ms{0.1870}{0.0858} & \ms{-0.1926}{0.2194} \\
+FuXi & \ms{0.4544}{0.0356} & \ms{0.2171}{0.0806} & \ms{-0.1367}{0.2885} \\
+Pangu-Weather & \ms{0.3988}{0.0506} & \ms{0.1901}{0.0838} & \ms{-0.1970}{0.2216} \\
+AlphaEarth & \ms{0.5276}{0.0531} & \ms{0.1782}{0.0454} & \ms{0.4639}{0.2802} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Smoke PM$_{2.5}$ high-event check. Metrics use test rows with observed PM$_{2.5}\ge35$ and bootstrap those rows. Cells report mean with small std.}
+\label{tab:app_smoke_high_event}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccc}
+\toprule
+Backbone & high-smoke RMSE & high-smoke MAE & high-smoke bias \\
+\midrule
+Reference & \ms{47.4870}{0.6346} & \ms{34.3954}{0.7654} & \ms{-33.7358}{0.8113} \\
+Prithvi-WxC & \ms{57.2224}{1.7268} & \ms{47.3871}{0.3153} & \ms{-47.3871}{0.3153} \\
+Aurora & \ms{57.2752}{1.7248} & \ms{47.4368}{0.3149} & \ms{-47.4368}{0.3149} \\
+ClimaX & \ms{57.2828}{1.7239} & \ms{47.4407}{0.3140} & \ms{-47.4407}{0.3140} \\
+StormCast & \ms{56.6512}{1.7517} & \ms{46.7914}{0.3281} & \ms{-46.7914}{0.3281} \\
+Pangu24 & \ms{56.8664}{1.7429} & \ms{47.0679}{0.3217} & \ms{-47.0679}{0.3217} \\
+DLWP & \ms{57.0075}{1.7359} & \ms{47.1971}{0.3198} & \ms{-47.1971}{0.3198} \\
+FCN & \ms{57.0582}{1.7339} & \ms{47.2401}{0.3187} & \ms{-47.2401}{0.3187} \\
+FengWu & \ms{57.0158}{1.7357} & \ms{47.1957}{0.3194} & \ms{-47.1957}{0.3194} \\
+FuXi & \ms{56.9622}{1.7371} & \ms{47.1508}{0.3201} & \ms{-47.1508}{0.3201} \\
+Pangu-Weather & \ms{57.1282}{1.7307} & \ms{47.3050}{0.3170} & \ms{-47.3050}{0.3170} \\
+AlphaEarth & \ms{48.0665}{0.7904} & \ms{35.6088}{0.7341} & \ms{-35.3436}{0.7872} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Extreme-heat exceedance decomposition. This table reports precision and recall behind the main exceedance-F1 column. Cells report mean with small std.}
+\label{tab:app_heat_event_decomposition}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lcc}
+\toprule
+Backbone & precision & recall \\
+\midrule
+Reference & \ms{0.9767}{0.0117} & \ms{0.9330}{0.0299} \\
+Prithvi-WxC & \ms{0.8260}{0.0030} & \ms{0.9173}{0.0033} \\
+Aurora & \ms{0.5920}{0.0347} & \ms{0.0517}{0.0020} \\
+ClimaX & \ms{0.7397}{0.0099} & \ms{0.7994}{0.0051} \\
+StormCast & \ms{0.8840}{0.0237} & \ms{0.9320}{0.0165} \\
+Pangu24 & \ms{0.8338}{0.0237} & \ms{0.7169}{0.0484} \\
+DLWP & \ms{0.9429}{0.0085} & \ms{0.8899}{0.0167} \\
+FCN & \ms{0.9408}{0.0097} & \ms{0.9111}{0.0127} \\
+FengWu & \ms{0.3808}{0.2719} & \ms{0.0266}{0.0267} \\
+FuXi & \ms{0.3262}{0.1262} & \ms{0.1810}{0.0481} \\
+Pangu-Weather & \ms{0.1159}{0.0743} & \ms{0.0112}{0.0032} \\
+AlphaEarth & \ms{0.9824}{0.0040} & \ms{0.9278}{0.0178} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}

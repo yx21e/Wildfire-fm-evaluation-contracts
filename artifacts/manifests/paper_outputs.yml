@@ -23,6 +23,30 @@ tables:
     inputs:
       - artifacts/results/fireprone_contract_progression_summary.raw.json
     description: Appendix predicted-positive-rate table by scope.
+  tab:app_burned_area_error_shape:
+    output: paper_outputs/tables/table_appendix_additional_values.tex
+    builder: scripts/build_tables.py
+    inputs:
+      - artifacts/results/cross_task_appendix_supplements.json
+    description: Appendix burned-area median and acre-scale error-shape check.
+  tab:app_analog_rank_depth:
+    output: paper_outputs/tables/table_appendix_additional_values.tex
+    builder: scripts/build_tables.py
+    inputs:
+      - artifacts/results/cross_task_appendix_supplements.json
+    description: Appendix analog retrieval diagnostic check.
+  tab:app_smoke_high_event:
+    output: paper_outputs/tables/table_appendix_additional_values.tex
+    builder: scripts/build_tables.py
+    inputs:
+      - artifacts/results/cross_task_appendix_supplements.json
+    description: Appendix high-smoke PM2.5 subset check.
+  tab:app_heat_event_decomposition:
+    output: paper_outputs/tables/table_appendix_additional_values.tex
+    builder: scripts/build_tables.py
+    inputs:
+      - artifacts/results/cross_task_appendix_supplements.json
+    description: Appendix extreme-heat precision/recall decomposition.
 figures:
   fig:fireprone_contract_progression:
     output: paper_outputs/figures/fig_fireprone_contract_progression_compact.pdf

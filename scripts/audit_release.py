@@ -48,19 +48,50 @@ def audit_tex_cells() -> list[str]:
     issues: list[str] = []
     for path in sorted((ROOT / "paper_outputs" / "tables").glob("*.tex")):
         text = path.read_text()
-        cells = re.findall(r"\\ms\{([^}]*)\}\{([^}]*)\}", text)
-        by_cell: dict[tuple[str, str], list[int]] = defaultdict(list)
-        for idx, (mean, std) in enumerate(cells, start=1):
-            by_cell[(mean, std)].append(idx)
-            if not re.fullmatch(r"-?\d+\.\d{4}", mean):
-                issues.append(f"{path.relative_to(ROOT)} cell {idx} mean is not four decimals: {mean}")
-            if not re.fullmatch(r"-?\d+\.\d{4}", std):
-                issues.append(f"{path.relative_to(ROOT)} cell {idx} std is not four decimals: {std}")
-            if std == "0.0000":
-                issues.append(f"{path.relative_to(ROOT)} cell {idx} displays zero std: {mean}+/-{std}")
-        for cell, idxs in by_cell.items():
-            if len(idxs) > 1:
-                issues.append(f"{path.relative_to(ROOT)} repeats displayed cell {cell} at positions {idxs}")
+        for table_idx, block in enumerate(re.findall(r"\\begin\{table\*?\}.*?\\end\{table\*?\}", text, flags=re.S), start=1):
+            cells = re.findall(r"\\ms\{([^}]*)\}\{([^}]*)\}", block)
+            by_cell: dict[tuple[str, str], list[int]] = defaultdict(list)
+            by_mean: dict[str, list[int]] = defaultdict(list)
+            for idx, (mean, std) in enumerate(cells, start=1):
+                by_cell[(mean, std)].append(idx)
+                by_mean[mean].append(idx)
+                if not re.fullmatch(r"-?\d+\.\d{4}", mean):
+                    issues.append(f"{path.relative_to(ROOT)} table {table_idx} cell {idx} mean is not four decimals: {mean}")
+                if not re.fullmatch(r"-?\d+\.\d{4}", std):
+                    issues.append(f"{path.relative_to(ROOT)} table {table_idx} cell {idx} std is not four decimals: {std}")
+                if std == "0.0000":
+                    issues.append(f"{path.relative_to(ROOT)} table {table_idx} cell {idx} displays zero std: {mean}+/-{std}")
+            for cell, idxs in by_cell.items():
+                if len(idxs) > 1:
+                    issues.append(f"{path.relative_to(ROOT)} table {table_idx} repeats displayed cell {cell} at positions {idxs}")
+    return issues
+
+
+def audit_cross_task_supplement_artifact() -> list[str]:
+    issues: list[str] = []
+    path = ROOT / "artifacts" / "results" / "cross_task_appendix_supplements.json"
+    if not path.exists():
+        return issues
+    data = __import__("json").loads(path.read_text())
+    for table_name in data.get("accepted_tables", []):
+        table = data["tables"][table_name]
+        for metric in table["metrics"]:
+            by_cell: dict[str, list[str]] = defaultdict(list)
+            by_mean: dict[str, list[str]] = defaultdict(list)
+            for label, row in table["summary"].items():
+                node = row[metric]
+                mean = f"{float(node['mean']):.4f}"
+                std = f"{float(node['std']):.4f}"
+                if std == "0.0000":
+                    issues.append(f"{path.relative_to(ROOT)} {table_name} {label} {metric} displays zero std")
+                by_cell[f"{mean}+/-{std}"].append(label)
+                by_mean[mean].append(label)
+            for cell, labels in by_cell.items():
+                if len(labels) > 1:
+                    issues.append(f"{path.relative_to(ROOT)} {table_name} {metric} repeats displayed cell {cell} across {labels}")
+            for mean, labels in by_mean.items():
+                if len(labels) > 1:
+                    issues.append(f"{path.relative_to(ROOT)} {table_name} {metric} repeats displayed mean {mean} across {labels}")
     return issues
 
 
@@ -81,7 +112,7 @@ def audit_required_outputs() -> list[str]:
 
 
 def main() -> None:
-    issues = audit_required_outputs() + audit_forbidden() + audit_tex_cells()
+    issues = audit_required_outputs() + audit_forbidden() + audit_tex_cells() + audit_cross_task_supplement_artifact()
     if issues:
         print("Release audit failed:")
         for issue in issues:

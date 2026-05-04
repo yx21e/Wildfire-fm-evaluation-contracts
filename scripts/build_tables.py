@@ -109,7 +109,72 @@ def build_occupancy_ppr() -> str:
 
 
 def build_appendix_additional_values() -> None:
-    (OUT_TABLES / "table_appendix_additional_values.tex").write_text(build_occupancy_ppr())
+    parts = [build_occupancy_ppr()]
+    supplement_path = ARTIFACTS / "cross_task_appendix_supplements.json"
+    if supplement_path.exists():
+        payload = json.loads(supplement_path.read_text())
+        for name in payload["accepted_tables"]:
+            parts.append(build_cross_task_supplement_table(name, payload["tables"][name]))
+    (OUT_TABLES / "table_appendix_additional_values.tex").write_text("\n".join(parts))
+
+
+SUPPLEMENT_META = {
+    "burned_area_error_shape": {
+        "headers": ["log median AE", "acre median AE", "acre MAPE"],
+        "caption": "Final burned-area error-shape check. This table adds median and acre-scale errors beyond the main log-RMSE/log-MAE/Spearman columns.",
+        "label": "tab:app_burned_area_error_shape",
+    },
+    "analog_rank_depth": {
+        "headers": ["nDCG@5", "best log gap", r"rank $\rho$"],
+        "caption": "Analog retrieval diagnostic check. This table adds nDCG@5, best log gap, and rank correlation beyond the main nDCG@10/log-RMSE/log-MAE columns.",
+        "label": "tab:app_analog_rank_depth",
+    },
+    "smoke_high_event": {
+        "headers": ["high-smoke RMSE", "high-smoke MAE", "high-smoke bias"],
+        "caption": r"Smoke PM$_{2.5}$ high-event check. Metrics use test rows with observed PM$_{2.5}\ge35$ and bootstrap those rows.",
+        "label": "tab:app_smoke_high_event",
+    },
+    "heat_event_decomposition": {
+        "headers": ["precision", "recall"],
+        "caption": "Extreme-heat exceedance decomposition. This table reports precision and recall behind the main exceedance-F1 column.",
+        "label": "tab:app_heat_event_decomposition",
+    },
+}
+
+
+def build_cross_task_supplement_table(name: str, table: dict) -> str:
+    meta = SUPPLEMENT_META[name]
+    metrics = table["metrics"]
+    lines = [
+        r"\begin{table*}[t]",
+        r"\centering",
+        r"\scriptsize",
+        r"\setlength{\tabcolsep}{3pt}",
+        rf"\caption{{{meta['caption']} Cells report mean with small std.}}",
+        rf"\label{{{meta['label']}}}",
+        r"\begin{adjustbox}{max width=\textwidth}",
+        r"\begin{tabular}{l" + "c" * len(metrics) + r"}",
+        r"\toprule",
+        "Backbone & " + " & ".join(meta["headers"]) + r" \\",
+        r"\midrule",
+    ]
+    summary = table["summary"]
+    for label in ROW_ORDER:
+        if label not in summary:
+            continue
+        row = summary[label]
+        cells = [ms_from_summary(row[metric]) for metric in metrics]
+        lines.append(label + " & " + " & ".join(cells) + r" \\")
+    lines.extend(
+        [
+            r"\bottomrule",
+            r"\end{tabular}",
+            r"\end{adjustbox}",
+            r"\end{table*}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
 
 
 def build_primary_results() -> None:
