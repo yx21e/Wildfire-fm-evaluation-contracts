@@ -91,7 +91,7 @@ def build_occupancy_ppr() -> str:
         r"\begin{adjustbox}{max width=\textwidth}",
         r"\begin{tabular}{lcccc}",
         r"\toprule",
-        r"\textbf{Backbone} & \textbf{global} & \textbf{top 5\%} & \textbf{top 10\%} & \textbf{top 20\%} \\",
+        r"\textbf{Backbone} & \textbf{\(\Omega=\)global} & \textbf{\(\Omega=\)top 5\%} & \textbf{\(\Omega=\)top 10\%} & \textbf{\(\Omega=\)top 20\%} \\",
         r"\midrule",
     ]
     for model_tag, label in MODEL_TAG_ORDER:
