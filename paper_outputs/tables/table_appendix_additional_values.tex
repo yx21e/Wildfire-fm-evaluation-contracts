@@ -1,0 +1,56 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\caption{Predicted-positive rate for the occupancy contract.
+Values are percentages under the same validation-selected strict threshold.
+Scopes \(\Omega\) are fixed before test scoring; cells report five-seed mean with std in small type.}
+\label{tab:app_occupancy_ppr_scope}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Backbone} & \textbf{global} & \textbf{top 5\%} & \textbf{top 10\%} & \textbf{top 20\%} \\
+\midrule
+Reference & \ms{1.6808}{0.3684} & \ms{3.0619}{1.0925} & \ms{1.5310}{0.5463} & \ms{0.7655}{0.2732} \\
+Prithvi-WxC & \ms{61.9711}{30.9101} & \ms{57.4117}{47.8987} & \ms{58.4565}{51.0897} & \ms{58.9788}{52.6991} \\
+Aurora & \ms{55.5849}{19.7524} & \ms{57.2238}{35.3400} & \ms{68.7942}{37.6958} & \ms{67.2891}{38.3991} \\
+ClimaX & \ms{5.6763}{3.9261} & \ms{24.0091}{9.2816} & \ms{11.8450}{4.5067} & \ms{5.7442}{4.1341} \\
+StormCast & \ms{60.6507}{17.4895} & \ms{57.6017}{35.2921} & \ms{68.0766}{37.3899} & \ms{67.8397}{39.2410} \\
+Pangu24 & \ms{63.3804}{25.0761} & \ms{62.4190}{41.0654} & \ms{58.2086}{51.2755} & \ms{66.1008}{45.0930} \\
+DLWP & \ms{4.3221}{1.5619} & \ms{9.4001}{5.0807} & \ms{4.9700}{3.6849} & \ms{1.9198}{1.4678} \\
+FCN & \ms{1.5202}{1.3446} & \ms{4.7856}{2.9409} & \ms{2.7257}{1.6353} & \ms{0.8368}{0.2358} \\
+FengWu & \ms{0.4277}{0.4830} & \ms{0.6004}{0.3041} & \ms{0.2609}{0.1935} & \ms{0.1501}{0.1206} \\
+FuXi & \ms{0.4505}{0.2773} & \ms{2.9315}{2.6392} & \ms{0.5197}{0.6074} & \ms{0.3621}{0.4346} \\
+Pangu-Weather & \ms{1.0801}{1.1308} & \ms{2.0549}{2.1893} & \ms{1.4029}{1.4739} & \ms{1.0103}{1.1084} \\
+AlphaEarth & \ms{0.0691}{0.0499} & \ms{0.2826}{0.1497} & \ms{0.1524}{0.0770} & \ms{0.0656}{0.0414} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\caption{Analog-retrieval value checks not shown in the main table.
+nDCG@5 and Spearman \(\rho\) are higher-better; best log gap is lower-better.
+Cells report five-seed mean with std in small type.}
+\label{tab:app_analog_extra_values}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Backbone} & \textbf{nDCG@5\(\uparrow\)} & \textbf{Spearman \(\rho\uparrow\)} & \textbf{Best log gap\(\downarrow\)} \\
+\midrule
+Reference & \ms{0.5175}{0.0445} & \ms{0.6019}{0.1460} & \ms{0.1868}{0.0285} \\
+Prithvi-WxC & \ms{0.3591}{0.0107} & \ms{0.1514}{0.1489} & \ms{0.2151}{0.0594} \\
+Aurora & \ms{0.4423}{0.0210} & \ms{0.2162}{0.1856} & \ms{0.1551}{0.0437} \\
+ClimaX & \ms{0.4151}{0.0293} & \ms{0.1587}{0.2831} & \ms{0.2129}{0.0653} \\
+StormCast & \ms{0.3960}{0.0240} & \ms{0.1258}{0.1625} & \ms{0.1714}{0.0310} \\
+Pangu24 & \ms{0.3776}{0.0383} & \ms{-0.1661}{0.3081} & \ms{0.2442}{0.0533} \\
+AlphaEarth & \ms{0.5276}{0.0531} & \ms{0.4639}{0.2802} & \ms{0.1782}{0.0454} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

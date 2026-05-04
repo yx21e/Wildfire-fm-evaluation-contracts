@@ -1,0 +1,56 @@
+tables:
+  tab:primary_results:
+    output: paper_outputs/tables/table_primary_results.tex
+    builder: scripts/build_tables.py
+    inputs:
+      - artifacts/results/release_table_values.json
+    description: Primary occupancy and fire-spread fixed-contract transfer table.
+  tab:supporting_results:
+    output: paper_outputs/tables/table_supporting_results.tex
+    builder: scripts/build_tables.py
+    inputs:
+      - artifacts/results/release_table_values.json
+      - artifacts/results/supporting_bootstrap_robustness.raw.json
+    description: Supporting burned-area, analog retrieval, smoke, and heat table.
+  tab:fireprone_contract_progression:
+    output: paper_outputs/tables/table_fireprone_contract_progression.tex
+    builder: scripts/build_tables.py
+    inputs:
+      - artifacts/results/fireprone_contract_progression_summary.raw.json
+    description: Global/top-5/top-10/top-20 occupancy matching-rule sweep.
+  tab:app_occupancy_ppr_scope:
+    output: paper_outputs/tables/table_appendix_additional_values.tex
+    builder: scripts/build_tables.py
+    inputs:
+      - artifacts/results/fireprone_contract_progression_summary.raw.json
+    description: Appendix predicted-positive-rate table by scope.
+  tab:app_analog_extra_values:
+    output: paper_outputs/tables/table_appendix_additional_values.tex
+    builder: scripts/build_tables.py
+    inputs:
+      - artifacts/results/appendix_additional_value_tables.raw.json
+    description: Appendix analog-retrieval value checks not shown in the main table.
+
+figures:
+  fig:fireprone_contract_progression:
+    output: paper_outputs/figures/fig_fireprone_contract_progression_compact.pdf
+    builder: scripts/build_figures.py
+    inputs:
+      - artifacts/results/fireprone_contract_progression_summary.raw.json
+    description: Figure 3 fire-prone occupancy contract progression bar plot.
+  fig:task_comparator_normalized_map:
+    output: paper_outputs/figures/fig_comparator_heatmap_dense.pdf
+    builder: scripts/build_figures.py
+    inputs:
+      - artifacts/results/release_table_values.json
+    description: Reference-normalized task-comparator heatmap.
+  fig:toy_occupancy_contract:
+    output: paper_outputs/figures/matching.pdf
+    builder: static exported vector figure
+    inputs: []
+    description: Matching-rule schematic.
+  fig:wildfire_overview:
+    output: paper_outputs/figures/overview_wildfire.pdf
+    builder: static exported vector figure
+    inputs: []
+    description: Paper overview schematic.

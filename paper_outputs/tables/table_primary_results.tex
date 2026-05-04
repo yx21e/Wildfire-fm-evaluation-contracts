@@ -1,0 +1,43 @@
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.20}
+\caption{\textbf{Primary fixed-contract transfer results (RQ3).} Occupancy metrics: exact, tolerated, and union $F_1$ (\%). Fire spread metrics: exact $F_1$, spatial $F_1$, and AP (\%). Each block fixes $\mathcal{T}$, $\Lambda$, $\Omega$, $\mathcal{A}$.}
+\label{tab:primary_results}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+& \multicolumn{3}{c}{\textbf{Occupancy}} & \multicolumn{3}{c}{\textbf{Fire spread}} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+\textbf{Comparator} & \textbf{Exact $F_1\uparrow$} & \textbf{Tol.\ $F_1\uparrow$} & \textbf{Union $F_1\uparrow$} & \textbf{Exact $F_1\uparrow$} & \textbf{Spatial $F_1\uparrow$} & \textbf{AP$\uparrow$} \\
+\midrule
+Wildfire ref.
+& \ms{0.4546}{0.1412} & \ms{29.7484}{1.2868} & \ms{59.0656}{2.7372} & \ms{37.6700}{0.9800} & \ms{80.9700}{2.0200} & \ms{30.0900}{1.2500} \\
+\midrule
+Prithvi-WxC
+& \ms{0.0552}{0.0039} & \ms{7.1649}{0.6557} & \ms{20.1853}{1.8299} & \ms{22.3500}{3.4500} & \ms{65.2600}{1.0700} & \ms{5.0000}{0.3000} \\
+Aurora
+& \ms{0.0656}{0.0094} & \ms{8.5009}{1.9594} & \ms{23.1037}{4.9418} & \ms{30.8757}{0.1343} & \ms{71.7329}{0.0141} & \ms{16.6221}{1.6965} \\
+ClimaX
+& \ms{0.3480}{0.0754} & \ms{29.7535}{3.6073} & \ms{60.1506}{7.5865} & \ms{27.9853}{2.0532} & \ms{69.0634}{2.3832} & \ms{11.1726}{0.2337} \\
+StormCast
+& \ms{0.0626}{0.0119} & \ms{8.1951}{2.1895} & \ms{22.3817}{5.4294} & \ms{14.8387}{7.5791} & \ms{55.7568}{21.3003} & \ms{2.8114}{0.7377} \\
+Pangu24
+& \ms{0.0618}{0.0067} & \ms{8.1803}{1.3545} & \ms{22.0562}{3.7343} & \ms{14.8387}{7.6648} & \ms{55.7568}{21.8563} & \ms{3.6968}{1.7768} \\
+DLWP
+& \ms{0.1693}{0.0419} & \ms{14.9148}{3.2446} & \ms{28.1901}{6.9658} & \ms{5.9335}{10.0712} & \ms{22.8587}{22.3750} & \ms{5.9435}{5.5194} \\
+FCN
+& \ms{0.2829}{0.0839} & \ms{19.5061}{3.3412} & \ms{40.0604}{9.3701} & \ms{3.1798}{2.6598} & \ms{15.6203}{12.4531} & \ms{2.3861}{1.2614} \\
+FengWu
+& \ms{0.2613}{0.0757} & \ms{12.0050}{6.0239} & \ms{24.1022}{13.6293} & \ms{5.5189}{9.0883} & \ms{18.4774}{22.4703} & \ms{13.1658}{1.3408} \\
+FuXi
+& \ms{0.3774}{0.1212} & \ms{21.0323}{4.8211} & \ms{37.2888}{9.4470} & \ms{19.9909}{2.1364} & \ms{56.1826}{3.0412} & \ms{14.3526}{0.3554} \\
+Pangu-Weather
+& \ms{0.2755}{0.1089} & \ms{17.0909}{4.0477} & \ms{35.6386}{9.0327} & \ms{11.2583}{11.0719} & \ms{32.5081}{25.4969} & \ms{12.6881}{1.6790} \\
+AlphaEarth
+& \ms{2.0606}{0.4404} & \ms{29.4476}{6.0064} & \ms{37.4286}{9.9458} & \ms{11.0995}{3.6088} & \ms{32.8316}{7.4634} & \ms{11.8343}{1.5050} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

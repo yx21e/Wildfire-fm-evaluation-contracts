@@ -1,0 +1,33 @@
+family,scope,seed,ranking_head,decision_head,ranking_pr_auc,ranking_union_f1,decision_union_f1,regret,failure,failure_zero,top1_agreement,top2_overlap,decision_collapse,spearman_pr_union
+Prithvi-WxC,global,det.,shallow spatial adapter,shallow spatial adapter,0.0317,0.7152,0.7152,0.0,False,False,True,True,False,0.9999999999999998
+Prithvi-WxC,fire_prone,det.,linear probe,shallow spatial adapter,0.14,0.0,0.881,0.881,True,True,False,True,True,-0.9999999999999998
+Aurora,global,1,pixel MLP head,constant prior head,0.0003203836978039105,0.0,0.11250100970106779,0.11250100970106779,True,True,False,False,False,-0.7071067811865475
+Aurora,global,123,linear probe,shallow spatial adapter,0.0003361346188992932,0.09001598313159424,0.11416411950971395,0.024148136378119703,True,True,False,False,False,0.10259783520851541
+Aurora,global,42,linear probe,shallow spatial adapter,0.0003348567488868777,0.0,0.11326006464883925,0.11326006464883925,True,True,False,False,False,-0.5270462766947299
+Aurora,global,7,linear probe,shallow spatial adapter,0.0003365633944686796,0.0,0.11582502914978784,0.11582502914978784,True,True,False,False,False,-0.7905694150420948
+Aurora,global,99,pixel MLP head,shallow spatial adapter,0.0003416774254735987,0.0,0.1125073134469834,0.1125073134469834,True,True,False,False,False,-0.22941573387056174
+Aurora,fire_prone,1,pixel MLP head,constant prior head,0.025151359890750978,0.0,0.5055297690676752,0.5055297690676752,True,True,False,False,True,-0.7071067811865475
+Aurora,fire_prone,123,linear probe,constant prior head,0.03327317362177979,0.27256836429354425,0.5055297690676752,0.23296140477413096,True,True,False,False,False,-0.11180339887498948
+Aurora,fire_prone,42,wide shallow adapter,constant prior head,0.03418005160958568,0.5055297690676752,0.5055297690676752,0.0,False,False,False,False,False,0.28867513459481287
+Aurora,fire_prone,7,linear probe,constant prior head,0.03354322770872274,0.0,0.5055297690676752,0.5055297690676752,True,True,False,False,True,-0.8660254037844386
+Aurora,fire_prone,99,pixel MLP head,constant prior head,0.02558605891782626,0.0,0.5055297690676752,0.5055297690676752,True,True,False,False,True,-0.7254762501100117
+ClimaX,global,1,wide shallow adapter,shallow spatial adapter,0.0002576240965656369,0.11250100970106779,0.11582502914978784,0.0033240194487200586,False,True,False,False,False,-0.35355339059327373
+ClimaX,global,123,wide shallow adapter,shallow spatial adapter,0.0002583005978824166,0.11250100970106779,0.11251853060828028,1.7520907212492665e-05,False,True,False,False,False,-0.35355339059327373
+ClimaX,global,42,shallow spatial adapter,shallow spatial adapter,0.0002635438441172435,0.11252622892404085,0.11252622892404085,0.0,False,False,True,True,False,0.7071067811865475
+ClimaX,global,7,shallow spatial adapter,shallow spatial adapter,0.00026392842514814355,0.11492651601714667,0.11492651601714667,0.0,False,False,True,True,False,0.7071067811865475
+ClimaX,global,99,shallow spatial adapter,shallow spatial adapter,0.0002584844504175628,0.11582502914978784,0.11582502914978784,0.0,False,False,True,True,False,0.7071067811865475
+ClimaX,fire_prone,1,linear probe,constant prior head,0.02266235842125272,0.5055297690676752,0.5055297690676752,0.0,False,False,False,True,False,nan
+ClimaX,fire_prone,123,wide shallow adapter,constant prior head,0.02276372672081588,0.5055297690676752,0.5055297690676752,0.0,False,False,False,False,False,nan
+ClimaX,fire_prone,42,shallow spatial adapter,constant prior head,0.0232001294766323,0.5055297690676752,0.5055297690676752,0.0,False,False,False,False,False,nan
+ClimaX,fire_prone,7,shallow spatial adapter,constant prior head,0.023418348110635024,0.5055297690676752,0.5055297690676752,0.0,False,False,False,False,False,nan
+ClimaX,fire_prone,99,linear probe,constant prior head,0.022833179567809177,0.5055297690676752,0.5055297690676752,0.0,False,False,False,True,False,nan
+Pangu24,global,1,shallow spatial adapter,shallow spatial adapter,0.0003184083932332734,0.11582502914978784,0.11582502914978784,0.0,False,False,True,True,False,0.051298917604257706
+Pangu24,global,123,shallow spatial adapter,shallow spatial adapter,0.0003305717410630794,0.11502529563301157,0.11502529563301157,0.0,False,False,True,True,False,0.6668859288553503
+Pangu24,global,42,wide shallow adapter,shallow spatial adapter,0.00027611010086493764,0.11250100970106779,0.11582502914978784,0.0033240194487200586,False,True,False,False,False,-0.31622776601683794
+Pangu24,global,7,pixel MLP head,shallow spatial adapter,0.00032893633911208823,0.0,0.11582502914978784,0.11582502914978784,True,True,False,False,False,-0.6708203932499369
+Pangu24,global,99,wide shallow adapter,shallow spatial adapter,0.00032980109347867327,0.11250100970106779,0.11582502914978784,0.0033240194487200586,False,True,False,False,False,-0.6882472016116852
+Pangu24,fire_prone,1,shallow spatial adapter,constant prior head,0.03620535978423278,0.5055297690676752,0.5055297690676752,0.0,False,False,False,False,False,-0.35355339059327373
+Pangu24,fire_prone,123,linear probe,linear probe,0.038250228829639646,0.5060680789918252,0.5060680789918252,0.0,False,False,True,True,False,0.4472135954999579
+Pangu24,fire_prone,42,linear probe,constant prior head,0.03282307795606195,0.0,0.5055297690676752,0.5055297690676752,True,True,False,False,True,-0.5773502691896257
+Pangu24,fire_prone,7,pixel MLP head,constant prior head,0.047138576781407156,0.0,0.5055297690676752,0.5055297690676752,True,True,False,False,True,-0.7071067811865475
+Pangu24,fire_prone,99,wide shallow adapter,constant prior head,0.042974845681594,0.5055297690676752,0.5055297690676752,0.0,False,False,False,False,False,-0.36273812505500586

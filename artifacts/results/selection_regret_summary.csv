@@ -1,0 +1,9 @@
+family,scope,n,failure_count,failure_zero_count,mean_regret_pp,std_regret_pp,max_regret_pp,ranking_heads,decision_heads,top1_agreement,top2_overlap,collapse_count,spearman_pr_union_mean,reading
+Prithvi-WxC,global,1,0,0,0.0,0.0,0.0,['shallow adapter'],['shallow adapter'],1,1,0,0.9999999999999998,Aligned/tied
+Prithvi-WxC,fire_prone,1,1,1,88.1,0.0,88.1,['linear probe'],['shallow adapter'],0,1,1,-0.9999999999999998,Severe selection failure
+Aurora,global,5,5,5,9.56483106649596,3.9993087558536664,11.582502914978784,"['linear probe', 'pixel MLP']","['constant prior', 'shallow adapter']",0,0,0,-0.4303080743170837,Recurring moderate regret
+Aurora,fire_prone,5,4,4,34.991014239543134,22.84548749749239,50.55297690676752,"['linear probe', 'pixel MLP', 'wide adapter']",['constant prior'],0,0,3,-0.4243473398722349,Recurring high regret
+ClimaX,global,5,0,2,0.06683080711865103,0.14846071776393902,0.33240194487200586,"['shallow adapter', 'wide adapter']",['shallow adapter'],3,3,0,0.282842712474619,Negligible regret
+ClimaX,fire_prone,5,0,0,0.0,0.0,0.0,"['linear probe', 'shallow adapter', 'wide adapter']",['constant prior'],0,2,0,nan,Aligned/tied
+Pangu24,global,5,1,3,2.4494613609445595,5.108229905936096,11.582502914978784,"['pixel MLP', 'shallow adapter', 'wide adapter']",['shallow adapter'],2,2,0,-0.19142210288377043,Isolated moderate regret
+Pangu24,fire_prone,5,2,2,20.22119076270701,27.689005800874313,50.55297690676752,"['linear probe', 'pixel MLP', 'shallow adapter', 'wide adapter']","['constant prior', 'linear probe']",1,1,2,-0.310706994104899,Intermittent high regret
