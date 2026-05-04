@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import csv
 import json
-from collections import defaultdict
 
 from release_utils import ARTIFACTS, OUT_TABLES, ROW_ORDER, ensure_dirs, ms, ms_from_summary
 
@@ -151,11 +149,6 @@ def build_analog_extra() -> str:
 
 def build_appendix_additional_values() -> None:
     (OUT_TABLES / "table_appendix_additional_values.tex").write_text(build_occupancy_ppr() + "\n" + build_analog_extra())
-
-
-def read_supporting_summary(table_name: str) -> dict[str, dict]:
-    data = json.loads((ARTIFACTS / "supporting_bootstrap_robustness.raw.json").read_text())
-    return data["tables"][table_name]["summary"]
 
 
 def build_primary_results() -> None:
