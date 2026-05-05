@@ -3,7 +3,7 @@
 \small
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.18}
-\caption{Occupancy predicted-positive rate.
+\caption{For fixed occupancy \(\mathcal{T}\), this table reports predicted-positive rate.
 Values are percentages under the same validation-selected strict threshold.
 Scopes \(\Omega\) are fixed before test scoring; cells report five-seed mean with std in small type.}
 \label{tab:app_occupancy_ppr_scope}
@@ -33,8 +33,36 @@ AlphaEarth & \ms{0.0691}{0.0499} & \ms{0.2826}{0.1497} & \ms{0.1524}{0.0770} & \
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\caption{Final burned-area error-shape check. This table adds median and acre-scale errors beyond the main log-RMSE/log-MAE/Spearman columns. Cells report mean with small std.}
-\label{tab:app_burned_area_error_shape}
+\caption{For fixed spread \(\mathcal{T}\) and strict \(\Lambda\), this table reports AP under three \(\Omega\) scopes: full test, top-5\% train-fire area, and top-10\% train-fire area. Values are percentages; cells report mean with small std.}
+\label{tab:app_spread_ap_by_scope}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccc}
+\toprule
+Backbone & full \(\Omega\) AP & top-5\% \(\Omega\) AP & top-10\% \(\Omega\) AP \\
+\midrule
+Reference & \ms{30.0197}{1.5651} & \ms{40.7452}{2.0542} & \ms{37.4096}{1.8731} \\
+Prithvi-WxC & \ms{4.8319}{0.1731} & \ms{12.6086}{0.4468} & \ms{8.7051}{0.1889} \\
+Aurora & \ms{17.7723}{0.4293} & \ms{30.3106}{0.9404} & \ms{26.4732}{0.6932} \\
+ClimaX & \ms{11.1726}{0.2337} & \ms{25.7871}{1.2896} & \ms{19.9977}{1.2217} \\
+StormCast & \ms{8.1147}{1.1569} & \ms{18.5461}{1.1727} & \ms{14.1286}{1.2956} \\
+Pangu24 & \ms{9.9460}{1.5970} & \ms{20.7456}{4.3825} & \ms{15.6275}{2.8803} \\
+DLWP & \ms{9.2142}{2.6587} & \ms{19.3346}{2.3922} & \ms{14.9788}{2.6696} \\
+FCN & \ms{6.6774}{1.3001} & \ms{16.7396}{3.2955} & \ms{11.9308}{2.3881} \\
+FengWu & \ms{11.0046}{2.7092} & \ms{21.1506}{1.2163} & \ms{17.0113}{1.5778} \\
+FuXi & \ms{13.5507}{0.3840} & \ms{22.5434}{0.4100} & \ms{19.1964}{0.3943} \\
+Pangu-Weather & \ms{10.6250}{1.4643} & \ms{19.8294}{1.3044} & \ms{15.8013}{1.1602} \\
+AlphaEarth & \ms{12.2847}{1.3562} & \ms{22.8692}{0.4915} & \ms{18.2992}{1.2110} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{For fixed final-area \(\mathcal{T}\) and \(\Omega\), this table reports median log error and acre-scale errors in addition to the main log-RMSE/log-MAE/Spearman metrics. Cells report mean with small std.}
+\label{tab:app_burned_area_median_acre}
 \begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lccc}
 \toprule
@@ -61,7 +89,7 @@ AlphaEarth & \ms{1.7459}{0.6057} & \ms{15110.7573}{7106.3417} & \ms{9.7398}{2.74
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\caption{Analog retrieval diagnostic check. This table adds nDCG@5, best log gap, and rank correlation beyond the main nDCG@10/log-RMSE/log-MAE columns. Cells report mean with small std.}
+\caption{For fixed retrieval \(\mathcal{T}\) and \(\Omega\), this table reports nDCG@5, best log gap, and rank \(\rho\) in addition to the main nDCG@10/log-error metrics. Cells report mean with small std.}
 \label{tab:app_analog_rank_depth}
 \begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lccc}
@@ -89,25 +117,25 @@ AlphaEarth & \ms{0.5276}{0.0531} & \ms{0.1782}{0.0454} & \ms{0.4639}{0.2802} \\
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\caption{Smoke PM$_{2.5}$ high-event check. Metrics use test rows with observed PM$_{2.5}\ge35$ and bootstrap those rows. Cells report mean with small std.}
+\caption{For fixed smoke \(\mathcal{T}\) and station \(\Omega\), this table reports RMSE, MAE, and 90th-percentile absolute error on test rows with observed PM$_{2.5}\ge35$; std uses a row bootstrap over those rows. Cells report mean with small std.}
 \label{tab:app_smoke_high_event}
 \begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lccc}
 \toprule
-Backbone & high-smoke RMSE & high-smoke MAE & high-smoke bias \\
+Backbone & high-smoke RMSE & high-smoke MAE & high-smoke 90th AE \\
 \midrule
-Reference & \ms{47.4870}{0.6346} & \ms{34.3954}{0.7654} & \ms{-33.7358}{0.8113} \\
-Prithvi-WxC & \ms{57.2224}{1.7268} & \ms{47.3871}{0.3153} & \ms{-47.3871}{0.3153} \\
-Aurora & \ms{57.2752}{1.7248} & \ms{47.4368}{0.3149} & \ms{-47.4368}{0.3149} \\
-ClimaX & \ms{57.2828}{1.7239} & \ms{47.4407}{0.3140} & \ms{-47.4407}{0.3140} \\
-StormCast & \ms{56.6512}{1.7517} & \ms{46.7914}{0.3281} & \ms{-46.7914}{0.3281} \\
-Pangu24 & \ms{56.8664}{1.7429} & \ms{47.0679}{0.3217} & \ms{-47.0679}{0.3217} \\
-DLWP & \ms{57.0075}{1.7359} & \ms{47.1971}{0.3198} & \ms{-47.1971}{0.3198} \\
-FCN & \ms{57.0582}{1.7339} & \ms{47.2401}{0.3187} & \ms{-47.2401}{0.3187} \\
-FengWu & \ms{57.0158}{1.7357} & \ms{47.1957}{0.3194} & \ms{-47.1957}{0.3194} \\
-FuXi & \ms{56.9622}{1.7371} & \ms{47.1508}{0.3201} & \ms{-47.1508}{0.3201} \\
-Pangu-Weather & \ms{57.1282}{1.7307} & \ms{47.3050}{0.3170} & \ms{-47.3050}{0.3170} \\
-AlphaEarth & \ms{48.0665}{0.7904} & \ms{35.6088}{0.7341} & \ms{-35.3436}{0.7872} \\
+Reference & \ms{47.4870}{0.6346} & \ms{34.3954}{0.7654} & \ms{65.6213}{3.8778} \\
+Prithvi-WxC & \ms{57.2224}{1.7268} & \ms{47.3871}{0.3153} & \ms{74.9666}{3.2381} \\
+Aurora & \ms{57.2752}{1.7248} & \ms{47.4368}{0.3149} & \ms{75.0755}{3.1074} \\
+ClimaX & \ms{57.2828}{1.7239} & \ms{47.4407}{0.3140} & \ms{75.1012}{3.0777} \\
+StormCast & \ms{56.6512}{1.7517} & \ms{46.7914}{0.3281} & \ms{74.0794}{3.4707} \\
+Pangu24 & \ms{56.8664}{1.7429} & \ms{47.0679}{0.3217} & \ms{74.1314}{3.5392} \\
+DLWP & \ms{57.0075}{1.7359} & \ms{47.1971}{0.3198} & \ms{74.4936}{3.3826} \\
+FCN & \ms{57.0582}{1.7339} & \ms{47.2401}{0.3187} & \ms{74.6431}{3.1982} \\
+FengWu & \ms{57.0158}{1.7357} & \ms{47.1957}{0.3194} & \ms{74.5652}{3.2871} \\
+FuXi & \ms{56.9622}{1.7371} & \ms{47.1508}{0.3201} & \ms{74.3278}{3.4435} \\
+Pangu-Weather & \ms{57.1282}{1.7307} & \ms{47.3050}{0.3170} & \ms{74.6830}{3.2375} \\
+AlphaEarth & \ms{48.0665}{0.7904} & \ms{35.6088}{0.7341} & \ms{66.7613}{3.9235} \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -117,8 +145,8 @@ AlphaEarth & \ms{48.0665}{0.7904} & \ms{35.6088}{0.7341} & \ms{-35.3436}{0.7872}
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\caption{Extreme-heat exceedance decomposition. This table reports precision and recall behind the main exceedance-F1 column. Cells report mean with small std.}
-\label{tab:app_heat_event_decomposition}
+\caption{For fixed heat \(\mathcal{T}\) and heat-region \(\Omega\), this table reports precision and recall for the exceedance label used by the main \(F_1\). Cells report mean with small std.}
+\label{tab:app_heat_event_pr}
 \begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcc}
 \toprule

@@ -81,7 +81,7 @@ def build_occupancy_ppr() -> str:
         r"\small",
         r"\setlength{\tabcolsep}{4pt}",
         r"\renewcommand{\arraystretch}{1.18}",
-        r"\caption{Occupancy predicted-positive rate.",
+        r"\caption{For fixed occupancy \(\mathcal{T}\), this table reports predicted-positive rate.",
         r"Values are percentages under the same validation-selected strict threshold.",
         r"Scopes \(\Omega\) are fixed before test scoring; cells report five-seed mean with std in small type.}",
         r"\label{tab:app_occupancy_ppr_scope}",
@@ -110,6 +110,10 @@ def build_occupancy_ppr() -> str:
 
 def build_appendix_additional_values() -> None:
     parts = [build_occupancy_ppr()]
+    spread_path = ARTIFACTS / "spread_appendix_ap_by_scope.json"
+    if spread_path.exists():
+        payload = json.loads(spread_path.read_text())
+        parts.append(build_spread_ap_by_scope(payload))
     supplement_path = ARTIFACTS / "cross_task_appendix_supplements.json"
     if supplement_path.exists():
         payload = json.loads(supplement_path.read_text())
@@ -118,26 +122,59 @@ def build_appendix_additional_values() -> None:
     (OUT_TABLES / "table_appendix_additional_values.tex").write_text("\n".join(parts))
 
 
+def build_spread_ap_by_scope(payload: dict) -> str:
+    metrics = ["full_ap", "top05_ap", "top10_ap"]
+    headers = [r"full \(\Omega\) AP", r"top-5\% \(\Omega\) AP", r"top-10\% \(\Omega\) AP"]
+    lines = [
+        r"\begin{table*}[t]",
+        r"\centering",
+        r"\scriptsize",
+        r"\setlength{\tabcolsep}{3pt}",
+        r"\caption{For fixed spread \(\mathcal{T}\) and strict \(\Lambda\), this table reports AP under three \(\Omega\) scopes: full test, top-5\% train-fire area, and top-10\% train-fire area. Values are percentages; cells report mean with small std.}",
+        r"\label{tab:app_spread_ap_by_scope}",
+        r"\begin{adjustbox}{max width=\textwidth}",
+        r"\begin{tabular}{lccc}",
+        r"\toprule",
+        "Backbone & " + " & ".join(headers) + r" \\",
+        r"\midrule",
+    ]
+    summary = payload["summary"]
+    for label in ROW_ORDER:
+        row = summary[label]
+        cells = [ms_from_summary(row[metric], scale=100.0) for metric in metrics]
+        lines.append(label + " & " + " & ".join(cells) + r" \\")
+    lines.extend(
+        [
+            r"\bottomrule",
+            r"\end{tabular}",
+            r"\end{adjustbox}",
+            r"\end{table*}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
 SUPPLEMENT_META = {
-    "burned_area_error_shape": {
+    "burned_area_median_acre": {
         "headers": ["log median AE", "acre median AE", "acre MAPE"],
-        "caption": "Final burned-area error-shape check. This table adds median and acre-scale errors beyond the main log-RMSE/log-MAE/Spearman columns.",
-        "label": "tab:app_burned_area_error_shape",
+        "caption": r"For fixed final-area \(\mathcal{T}\) and \(\Omega\), this table reports median log error and acre-scale errors in addition to the main log-RMSE/log-MAE/Spearman metrics.",
+        "label": "tab:app_burned_area_median_acre",
     },
     "analog_rank_depth": {
         "headers": ["nDCG@5", "best log gap", r"rank $\rho$"],
-        "caption": "Analog retrieval diagnostic check. This table adds nDCG@5, best log gap, and rank correlation beyond the main nDCG@10/log-RMSE/log-MAE columns.",
+        "caption": r"For fixed retrieval \(\mathcal{T}\) and \(\Omega\), this table reports nDCG@5, best log gap, and rank \(\rho\) in addition to the main nDCG@10/log-error metrics.",
         "label": "tab:app_analog_rank_depth",
     },
     "smoke_high_event": {
-        "headers": ["high-smoke RMSE", "high-smoke MAE", "high-smoke bias"],
-        "caption": r"Smoke PM$_{2.5}$ high-event check. Metrics use test rows with observed PM$_{2.5}\ge35$ and bootstrap those rows.",
+        "headers": ["high-smoke RMSE", "high-smoke MAE", "high-smoke 90th AE"],
+        "caption": r"For fixed smoke \(\mathcal{T}\) and station \(\Omega\), this table reports RMSE, MAE, and 90th-percentile absolute error on test rows with observed PM$_{2.5}\ge35$; std uses a row bootstrap over those rows.",
         "label": "tab:app_smoke_high_event",
     },
-    "heat_event_decomposition": {
+    "heat_event_pr": {
         "headers": ["precision", "recall"],
-        "caption": "Extreme-heat exceedance decomposition. This table reports precision and recall behind the main exceedance-F1 column.",
-        "label": "tab:app_heat_event_decomposition",
+        "caption": r"For fixed heat \(\mathcal{T}\) and heat-region \(\Omega\), this table reports precision and recall for the exceedance label used by the main \(F_1\).",
+        "label": "tab:app_heat_event_pr",
     },
 }
 

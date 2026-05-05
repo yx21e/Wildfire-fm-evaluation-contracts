@@ -15,7 +15,7 @@ This rebuilds:
 - `paper_outputs/tables/table_primary_results.tex`
 - `paper_outputs/tables/table_supporting_results.tex`
 - `paper_outputs/tables/table_fireprone_contract_progression.tex`
-- `paper_outputs/tables/table_appendix_additional_values.tex`, including occupancy PPR plus cross-task appendix supplement tables
+- `paper_outputs/tables/table_appendix_additional_values.tex`, including occupancy PPR, spread AP by \(\Omega\), and cross-task appendix value tables
 - `paper_outputs/figures/fig_fireprone_contract_progression_compact.pdf`
 - `paper_outputs/figures/fig_comparator_heatmap_dense.pdf`
 
@@ -36,7 +36,7 @@ Run:
 python scripts/audit_release.py
 ```
 
-The audit checks that required outputs exist, no local machine paths are exposed, stale backbone labels are absent, and appendix value tables do not contain displayed zero standard deviations or duplicate displayed cells.
+The audit checks that required outputs exist, no local machine paths are exposed, stale backbone labels are absent, and appendix value tables use four decimals, no displayed zero standard deviations, no duplicate displayed values, and plain captions with the paper notation.
 
 ## Raw Reruns
 
