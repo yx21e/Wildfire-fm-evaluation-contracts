@@ -1,0 +1,101 @@
+version: 0.1
+updated: "2026-06-11"
+purpose: "Canonical split definitions for reproducible adapters and retraining."
+
+splits:
+  firewxfm_released_2024:
+    description: "Chronological split used by the released FireWx-FM occupancy backbone."
+    status: "current_firewxfm"
+    region: "California regional domain"
+    grid: "firewxfm_ca_5km_epsg5070"
+    train:
+      start: "2024-06-01"
+      end: "2024-08-31"
+      unit: "time_map"
+      count: 368
+    validation:
+      start: "2024-09-01"
+      end: "2024-09-30"
+      unit: "time_map"
+      count: 120
+    test:
+      start: "2024-10-01"
+      end: "2024-10-31"
+      unit: "time_map"
+      count: 120
+    leakage_rule: "No later fire outcomes may enter earlier training periods."
+    notes: "Keep this split fixed for current FireWx-FM comparability."
+
+  hazardwx_pilot_2020_2025:
+    description: "Candidate multi-task pilot split for data sources already prepared in wave 1."
+    status: "planned"
+    region: "CONUS or task-native domain"
+    grid: "task_dependent"
+    train:
+      start: "2020-01-01"
+      end: "2023-12-31"
+      unit: "task_native_sample"
+    validation:
+      start: "2024-01-01"
+      end: "2024-12-31"
+      unit: "task_native_sample"
+    test:
+      start: "2025-01-01"
+      end: "2025-12-31"
+      unit: "task_native_sample"
+    leakage_rule: "Chronological split by observation time; event-level tasks must not split the same event across partitions."
+    notes: "Suitable for AQS, HMS, and some weather-derived tasks; cyclone/drought may need longer histories."
+
+  drought_long_history:
+    description: "Candidate split for weekly U.S. Drought Monitor labels."
+    status: "planned"
+    region: "CONUS"
+    grid: "conus_equal_area_5km_epsg5070"
+    train:
+      start: "2000-01-01"
+      end: "2018-12-31"
+      unit: "week"
+    validation:
+      start: "2019-01-01"
+      end: "2021-12-31"
+      unit: "week"
+    test:
+      start: "2022-01-01"
+      end: "2025-12-31"
+      unit: "week"
+    leakage_rule: "No future weekly drought category is used for earlier samples."
+    notes: "Weather covariate availability may shorten this split unless MERRA-2 backfill is completed."
+
+  cyclone_track_long_history:
+    description: "Candidate split for IBTrACS/HURDAT2 track tasks."
+    status: "planned"
+    region: "basin dependent"
+    grid: "track_point"
+    train:
+      start: "1980-01-01"
+      end: "2015-12-31"
+      unit: "storm"
+    validation:
+      start: "2016-01-01"
+      end: "2020-12-31"
+      unit: "storm"
+    test:
+      start: "2021-01-01"
+      end: "2025-12-31"
+      unit: "storm"
+    leakage_rule: "Storm objects must be assigned wholly to one split."
+    notes: "If gridded weather context is required, split years must be intersected with available weather data."
+
+  wildfire_event_level:
+    description: "Candidate event-level split for final burned area, analog retrieval, and final scar tasks."
+    status: "planned"
+    region: "CONUS or Western U.S. after label coverage is validated"
+    grid: "event_context"
+    train:
+      method: "chronological_event_level"
+    validation:
+      method: "chronological_event_level"
+    test:
+      method: "chronological_event_level"
+    leakage_rule: "All observations from a wildfire event remain in one split."
+    notes: "Exact year boundaries should be chosen after MTBS/WFIGS/RAVG label coverage is audited."

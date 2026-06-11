@@ -1,0 +1,157 @@
+version: 0.1
+updated: "2026-06-11"
+purpose: "Task registry for FireWx-FM compatibility and general hazard-model expansion."
+
+tasks:
+  wildfire_occupancy_12h:
+    family: "wildfire"
+    status: "current_firewxfm_primary"
+    prediction_unit: "grid_cell_time"
+    input_grid: "firewxfm_ca_5km_epsg5070"
+    dynamic_sources: ["noaa_hrrr"]
+    static_sources: ["landfire_fbfm40", "landfire_canopy_cover", "wrc_housing_density", "landscan_population"]
+    target: "wildfire_active_fire_occupancy"
+    lead_time: "12h"
+    cadence: "6h input cadence"
+    head_type: "dense_occupancy"
+    loss_family: "class_weighted_binary_cross_entropy"
+    observation_mask: "target_observed_mask"
+    metrics:
+      primary: ["exact_f1", "tolerated_f1", "union_f1"]
+      support: ["pr_auc", "brier", "ece", "predicted_positive_rate"]
+    tolerance_policy: "fixed_contract_exact_tolerated_union"
+    notes: "This task must be preserved for compatibility with the current released FireWx-FM."
+
+  wildfire_perimeter_progression:
+    family: "wildfire"
+    status: "planned_adapter"
+    prediction_unit: "grid_cell_event_time"
+    input_grid: "conus_equal_area_5km_epsg5070"
+    dynamic_sources: ["noaa_hrrr"]
+    static_sources: ["landfire_fbfm40", "landfire_canopy_cover", "wrc_housing_density", "landscan_population"]
+    target: "wildfire_perimeter_area_fraction"
+    lead_time: "task_defined"
+    cadence: "daily_or_subdaily_when_observed"
+    head_type: "dense_area_fraction_or_occupancy"
+    loss_family: "masked_bce_or_regression"
+    observation_mask: "required"
+    metrics:
+      primary: ["spatial_f1", "iou", "area_error"]
+      support: ["ap", "calibration"]
+    tolerance_policy: "spatial_overlap_or_buffered_matching"
+    notes: "WFIGS sparsity requires an observation mask."
+
+  wildfire_final_area:
+    family: "wildfire"
+    status: "supporting_task_ready"
+    prediction_unit: "event"
+    input_grid: "event_context"
+    dynamic_sources: ["noaa_hrrr", "nasa_firms"]
+    static_sources: ["landfire_fbfm40", "landfire_canopy_cover", "wrc_housing_density", "landscan_population"]
+    target: "wildfire_final_burned_area"
+    lead_time: "event_defined"
+    cadence: "event"
+    head_type: "summary_regression"
+    loss_family: "log_target_regression"
+    observation_mask: "event_label_available"
+    metrics:
+      primary: ["log_rmse", "log_mae"]
+      support: ["spearman", "acre_median_ae"]
+    tolerance_policy: "not_applicable"
+    notes: "Current results use this as a supporting task, not current backbone pretraining."
+
+  smoke_pm25:
+    family: "air_quality"
+    status: "raw_data_available_adapter_needed"
+    prediction_unit: "station_time"
+    input_grid: "station_point"
+    dynamic_sources: ["noaa_hrrr", "epa_aqs_pm25", "noaa_hms"]
+    static_sources: ["landscan_population", "wrc_housing_density"]
+    target: "pm25"
+    lead_time: "task_defined"
+    cadence: "hourly_raw_with_3h_or_daily_cache"
+    head_type: "station_regression_or_exceedance"
+    loss_family: "masked_regression_or_bce"
+    observation_mask: "station_observation_available"
+    metrics:
+      primary: ["rmse", "mae"]
+      support: ["pearson_r", "exceedance_f1", "brier"]
+    tolerance_policy: "station_time_exact_or_windowed"
+    notes: "Do not collapse raw hourly AQS data before preserving hourly cache."
+
+  hms_smoke_mask:
+    family: "smoke"
+    status: "raw_data_available_adapter_needed"
+    prediction_unit: "grid_cell_day"
+    input_grid: "conus_equal_area_5km_epsg5070"
+    dynamic_sources: ["noaa_hrrr", "noaa_hms"]
+    static_sources: ["landscan_population", "wrc_housing_density"]
+    target: "smoke_plume_occupancy"
+    lead_time: "daily"
+    cadence: "daily"
+    head_type: "dense_occupancy_or_ordinal"
+    loss_family: "masked_bce_or_ordinal"
+    observation_mask: "hms_product_available"
+    metrics:
+      primary: ["f1", "iou"]
+      support: ["ap", "calibration"]
+    tolerance_policy: "spatial_overlap_or_exact_grid"
+    notes: "Smoke density categories may be kept if available in the raw HMS product."
+
+  extreme_heat:
+    family: "temperature_hazard"
+    status: "supporting_task_available"
+    prediction_unit: "grid_cell_time"
+    input_grid: "conus_latlon_025deg"
+    dynamic_sources: ["merra2", "noaa_hrrr"]
+    static_sources: []
+    target: "near_surface_temperature_and_exceedance"
+    lead_time: "task_defined"
+    cadence: "daily_or_subdaily"
+    head_type: "dense_regression_and_exceedance"
+    loss_family: "regression_or_bce"
+    observation_mask: "weather_truth_available"
+    metrics:
+      primary: ["rmse", "mae", "exceedance_f1"]
+      support: ["brier", "calibration"]
+    tolerance_policy: "threshold_exact"
+    notes: "Good first non-wildfire task because it can use dense weather fields."
+
+  cyclone_track:
+    family: "cyclone"
+    status: "raw_data_available_adapter_needed"
+    prediction_unit: "storm_time"
+    input_grid: "track_point"
+    dynamic_sources: ["ibtracs", "hurdat2", "noaa_hrrr", "merra2"]
+    static_sources: []
+    target: "cyclone_track_point"
+    lead_time: "6h_or_task_defined"
+    cadence: "native_best_track"
+    head_type: "track_and_intensity"
+    loss_family: "track_regression_and_intensity_regression"
+    observation_mask: "track_observation_available"
+    metrics:
+      primary: ["great_circle_track_error", "intensity_mae"]
+      support: ["ade", "fde", "landfall_error"]
+    tolerance_policy: "distance_based"
+    notes: "Keep raw track tables native; storm-centered gridded contexts are derived caches."
+
+  drought_weekly:
+    family: "drought"
+    status: "raw_data_available_adapter_needed"
+    prediction_unit: "grid_cell_or_polygon_week"
+    input_grid: "conus_equal_area_5km_epsg5070"
+    dynamic_sources: ["merra2", "noaa_hrrr", "usdm"]
+    static_sources: []
+    target: "drought_category"
+    lead_time: "weekly"
+    cadence: "weekly"
+    head_type: "dense_ordinal"
+    loss_family: "ordinal_or_cross_entropy"
+    observation_mask: "usdm_week_available"
+    metrics:
+      primary: ["ordinal_accuracy", "macro_f1"]
+      support: ["mae_category", "quadratic_weighted_kappa"]
+    tolerance_policy: "weekly_exact"
+    notes: "Weekly USDM cadence should remain canonical."
+

@@ -1,0 +1,236 @@
+version: 0.1
+updated: "2026-06-11"
+purpose: "Provider-level source registry for FireWx-FM and the planned general hazard backbone."
+
+sources:
+  noaa_hrrr:
+    provider: "NOAA"
+    family: "weather"
+    access: "public_direct"
+    native_cadence: "hourly forecast cycles"
+    native_format: "GRIB2"
+    spatial_reference: "HRRR native CONUS grid"
+    downloader_id: "hrrr_fireseason"
+    provider_urls:
+      - "https://registry.opendata.aws/noaa-hrrr-pds/"
+      - "https://rapidrefresh.noaa.gov/hrrr/"
+    citation_key: "noaa_hrrr_ncei"
+    current_firewxfm_role: "dynamic_input"
+    general_fm_role: "dynamic_environmental_fields"
+    redistribution: "provider_terms_apply"
+    notes: "Current FireWx-FM uses regional California HRRR-derived fields regridded to EPSG:5070."
+
+  nasa_firms:
+    provider: "NASA Earthdata"
+    family: "active_fire"
+    access: "auth_required"
+    native_cadence: "sub-daily detections"
+    native_format: "CSV/API"
+    spatial_reference: "point latitude/longitude"
+    downloader_id: "firms_area"
+    provider_urls:
+      - "https://firms.modaps.eosdis.nasa.gov/api/"
+      - "https://firms.modaps.eosdis.nasa.gov/download/"
+    citation_key: "nasa_firms"
+    current_firewxfm_role: "primary_occupancy_supervision"
+    general_fm_role: "wildfire_active_fire_target"
+    redistribution: "provider_terms_apply"
+    notes: "Area API requires a FIRMS MAP_KEY; missing daily files should not be treated as observed zeros."
+
+  landfire_fbfm40:
+    provider: "LANDFIRE"
+    family: "static_landscape"
+    access: "public_or_provider_direct"
+    native_cadence: "static/versioned"
+    native_format: "raster archive"
+    spatial_reference: "provider raster CRS"
+    downloader_id: "landfire_static"
+    provider_urls:
+      - "https://landfire.gov/data"
+    citation_key: "landfire_fbfm40"
+    current_firewxfm_role: "static_input"
+    general_fm_role: "static_fuel_context"
+    redistribution: "provider_terms_apply"
+    notes: "Current model uses fire-behavior fuel model as a static layer."
+
+  landfire_canopy_cover:
+    provider: "LANDFIRE"
+    family: "static_landscape"
+    access: "public_or_provider_direct"
+    native_cadence: "static/versioned"
+    native_format: "raster archive"
+    spatial_reference: "provider raster CRS"
+    downloader_id: "landfire_static"
+    provider_urls:
+      - "https://landfire.gov/data"
+    citation_key: "landfire_canopy_cover"
+    current_firewxfm_role: "static_input"
+    general_fm_role: "static_canopy_context"
+    redistribution: "provider_terms_apply"
+    notes: "Current model uses canopy cover as a static layer."
+
+  wrc_housing_density:
+    provider: "USDA Forest Service"
+    family: "static_exposure"
+    access: "provider_direct"
+    native_cadence: "static/versioned"
+    native_format: "image service or archive"
+    spatial_reference: "provider raster CRS"
+    downloader_id: "wrc_housing"
+    provider_urls:
+      - "https://wildfirerisk.org/download/"
+      - "https://data-usfs.hub.arcgis.com/datasets/usfs::wildfire-risk-to-communities-housing-unit-density-image-service"
+    citation_key: "usfs_wrc_housing_density"
+    current_firewxfm_role: "static_input"
+    general_fm_role: "static_exposure_context"
+    redistribution: "provider_terms_apply"
+    notes: "Current model uses housing-unit density as an exposure layer."
+
+  landscan_population:
+    provider: "Oak Ridge National Laboratory"
+    family: "static_exposure"
+    access: "restricted_terms"
+    native_cadence: "annual/versioned"
+    native_format: "provider raster"
+    spatial_reference: "provider raster CRS"
+    downloader_id: "landscan"
+    provider_urls:
+      - "https://landscan.ornl.gov/"
+    citation_key: "ornl_landscan_2024"
+    current_firewxfm_role: "static_input"
+    general_fm_role: "static_population_context"
+    redistribution: "not_redistributed"
+    notes: "Downloader records instructions only; users obtain data under ORNL terms."
+
+  wfigs:
+    provider: "National Interagency Fire Center"
+    family: "wildfire_event"
+    access: "arcgis_rest"
+    native_cadence: "event/perimeter updates"
+    native_format: "ArcGIS feature service"
+    spatial_reference: "vector geometry"
+    downloader_id: "wfigs_current"
+    provider_urls:
+      - "https://data-nifc.opendata.arcgis.com/"
+    citation_key: "nifc_wfigs_perimeters"
+    current_firewxfm_role: "supporting_task_resource"
+    general_fm_role: "wildfire_event_and_perimeter_target"
+    redistribution: "provider_terms_apply"
+    notes: "Perimeter observations are intermittent; adapters must emit an observation mask."
+
+  mtbs:
+    provider: "U.S. Geological Survey and USDA Forest Service"
+    family: "wildfire_event"
+    access: "public_direct_or_arcgis_rest"
+    native_cadence: "event-level"
+    native_format: "vector/raster products"
+    spatial_reference: "provider product CRS"
+    downloader_id: "mtbs_perimeters"
+    provider_urls:
+      - "https://www.mtbs.gov/"
+      - "https://www.mtbs.gov/direct-download"
+    citation_key: "mtbs_usgs_2025"
+    current_firewxfm_role: "supporting_task_resource"
+    general_fm_role: "burned_area_final_scar_and_severity_targets"
+    redistribution: "provider_terms_apply"
+    notes: "Final-area scalar is ready; raster scar/severity branch needs additional validation."
+
+  epa_aqs_pm25:
+    provider: "U.S. Environmental Protection Agency"
+    family: "air_quality"
+    access: "public_direct"
+    native_cadence: "hourly station observations"
+    native_format: "ZIP/CSV"
+    spatial_reference: "station latitude/longitude"
+    downloader_id: "aqs_pm25"
+    provider_urls:
+      - "https://aqs.epa.gov/aqsweb/airdata/download_files.html"
+    citation_key: null
+    current_firewxfm_role: "not_used"
+    general_fm_role: "pm25_station_regression_and_exceedance"
+    redistribution: "provider_terms_apply"
+    notes: "Wave-1 raw files for 2020-2025 are available locally; adapter should preserve hourly observations."
+
+  noaa_hms:
+    provider: "NOAA"
+    family: "smoke"
+    access: "public_direct"
+    native_cadence: "daily analyst product"
+    native_format: "annual shapefile bundles"
+    spatial_reference: "vector geometry"
+    downloader_id: "hms_smoke"
+    provider_urls:
+      - "https://www.ospo.noaa.gov/products/land/fire.html"
+      - "https://satepsanone.nesdis.noaa.gov/pub/FIRE/web/HMS/"
+    citation_key: null
+    current_firewxfm_role: "not_used"
+    general_fm_role: "smoke_mask_and_smoke_context"
+    redistribution: "provider_terms_apply"
+    notes: "Wave-1 annual bundles for 2020-2025 are available locally."
+
+  ibtracs:
+    provider: "NOAA National Centers for Environmental Information"
+    family: "cyclone"
+    access: "public_direct"
+    native_cadence: "best-track table"
+    native_format: "CSV/NetCDF/shapefile"
+    spatial_reference: "track latitude/longitude"
+    downloader_id: "ibtracs"
+    provider_urls:
+      - "https://www.ncei.noaa.gov/products/international-best-track-archive"
+    citation_key: null
+    current_firewxfm_role: "not_used"
+    general_fm_role: "cyclone_track_and_intensity_target"
+    redistribution: "provider_terms_apply"
+    notes: "Use raw tracks first; derive gridded or object targets later."
+
+  hurdat2:
+    provider: "NOAA National Hurricane Center"
+    family: "cyclone"
+    access: "public_direct"
+    native_cadence: "6-hour best-track style records"
+    native_format: "text archive"
+    spatial_reference: "track latitude/longitude"
+    downloader_id: "hurdat2"
+    provider_urls:
+      - "https://www.nhc.noaa.gov/data/hurdat/"
+    citation_key: null
+    current_firewxfm_role: "not_used"
+    general_fm_role: "us_relevant_cyclone_track_reference"
+    redistribution: "provider_terms_apply"
+    notes: "Best used as complementary NA/EP cyclone reference."
+
+  usdm:
+    provider: "U.S. Drought Monitor"
+    family: "drought"
+    access: "public_direct"
+    native_cadence: "weekly"
+    native_format: "GIS shapefile archive"
+    spatial_reference: "polygon geometry"
+    downloader_id: "usdm"
+    provider_urls:
+      - "https://droughtmonitor.unl.edu/Data.aspx"
+      - "https://droughtmonitor.unl.edu/DmData/GISData.aspx"
+    citation_key: null
+    current_firewxfm_role: "not_used"
+    general_fm_role: "weekly_drought_category_target"
+    redistribution: "provider_terms_apply"
+    notes: "Weekly cadence should remain canonical; daily interpolation should be secondary."
+
+  merra2:
+    provider: "NASA GES DISC"
+    family: "weather"
+    access: "earthdata_required"
+    native_cadence: "sub-daily/daily product dependent"
+    native_format: "NetCDF"
+    spatial_reference: "MERRA-2 native grid"
+    downloader_id: "merra2"
+    provider_urls:
+      - "https://disc.gsfc.nasa.gov/datasets?keywords=MERRA-2"
+      - "https://earthdata.nasa.gov/"
+    citation_key: null
+    current_firewxfm_role: "not_used_in_released_backbone"
+    general_fm_role: "dense_environmental_pretraining_and_heat_drought_support"
+    redistribution: "not_redistributed"
+    notes: "Requires Earthdata credentials; current local forecast-style stacks are MERRA-like but should not be described as raw MERRA-2 unless provenance is preserved."
+

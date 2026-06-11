@@ -1,0 +1,202 @@
+version: 0.1
+updated: "2026-06-11"
+purpose: "Canonical variable names and target names for data adapters."
+
+dynamic_weather:
+  t2m:
+    long_name: "near-surface air temperature"
+    unit: "K"
+    source_candidates: ["noaa_hrrr", "merra2"]
+    current_firewxfm: true
+    transform: "standardize_by_training_split"
+    missing_policy: "mask"
+  d2m:
+    long_name: "near-surface dew point temperature"
+    unit: "K"
+    source_candidates: ["noaa_hrrr"]
+    current_firewxfm: true
+    transform: "standardize_by_training_split"
+    missing_policy: "mask"
+  u10:
+    long_name: "10 m eastward wind"
+    unit: "m s-1"
+    source_candidates: ["noaa_hrrr", "merra2"]
+    current_firewxfm: true
+    transform: "standardize_by_training_split"
+    missing_policy: "mask"
+  v10:
+    long_name: "10 m northward wind"
+    unit: "m s-1"
+    source_candidates: ["noaa_hrrr", "merra2"]
+    current_firewxfm: true
+    transform: "standardize_by_training_split"
+    missing_policy: "mask"
+  cape:
+    long_name: "convective available potential energy"
+    unit: "J kg-1"
+    source_candidates: ["noaa_hrrr"]
+    current_firewxfm: true
+    transform: "log1p_or_standardize"
+    missing_policy: "mask"
+  sp:
+    long_name: "surface pressure"
+    unit: "Pa"
+    source_candidates: ["noaa_hrrr", "merra2"]
+    current_firewxfm: true
+    transform: "standardize_by_training_split"
+    missing_policy: "mask"
+  pblh:
+    long_name: "planetary boundary-layer height"
+    unit: "m"
+    source_candidates: ["noaa_hrrr"]
+    current_firewxfm: true
+    transform: "log1p_or_standardize"
+    missing_policy: "mask"
+  visibility:
+    long_name: "visibility"
+    unit: "m"
+    source_candidates: ["noaa_hrrr"]
+    current_firewxfm: true
+    transform: "log1p_or_standardize"
+    missing_policy: "mask"
+  precip_rate:
+    long_name: "precipitation rate"
+    unit: "kg m-2 s-1 or provider native"
+    source_candidates: ["noaa_hrrr"]
+    current_firewxfm: true
+    transform: "log1p_or_standardize"
+    missing_policy: "mask"
+  accumulated_precip:
+    long_name: "accumulated precipitation"
+    unit: "mm or provider native"
+    source_candidates: ["noaa_hrrr"]
+    current_firewxfm: true
+    transform: "log1p_or_standardize"
+    missing_policy: "mask"
+  qv2m:
+    long_name: "near-surface specific humidity"
+    unit: "kg kg-1"
+    source_candidates: ["merra2"]
+    current_firewxfm: false
+    transform: "standardize_by_training_split"
+    missing_policy: "mask"
+  gwetroot:
+    long_name: "root-zone soil wetness"
+    unit: "fraction"
+    source_candidates: ["merra2"]
+    current_firewxfm: false
+    transform: "standardize_by_training_split"
+    missing_policy: "mask"
+  ts:
+    long_name: "surface skin temperature"
+    unit: "K"
+    source_candidates: ["merra2"]
+    current_firewxfm: false
+    transform: "standardize_by_training_split"
+    missing_policy: "mask"
+
+static_context:
+  landfire_fbfm40:
+    long_name: "LANDFIRE 40 fire-behavior fuel model"
+    unit: "category"
+    source: "landfire_fbfm40"
+    current_firewxfm: true
+    transform: "categorical_embedding_or_scaled_code"
+    missing_policy: "mask_nodata"
+  landfire_canopy_cover:
+    long_name: "LANDFIRE canopy cover"
+    unit: "percent_or_class"
+    source: "landfire_canopy_cover"
+    current_firewxfm: true
+    transform: "scale_or_embedding"
+    missing_policy: "mask_nodata"
+  wrc_housing_density:
+    long_name: "housing-unit density"
+    unit: "housing units per area"
+    source: "wrc_housing_density"
+    current_firewxfm: true
+    transform: "log1p_or_standardize"
+    missing_policy: "mask"
+  landscan_population:
+    long_name: "population"
+    unit: "persons per cell or provider native"
+    source: "landscan_population"
+    current_firewxfm: true
+    transform: "log1p_or_standardize"
+    missing_policy: "mask"
+  landfire_evt:
+    long_name: "LANDFIRE existing vegetation type"
+    unit: "category"
+    source: "landfire_fbfm40"
+    current_firewxfm: false
+    transform: "categorical_embedding_or_scaled_code"
+    missing_policy: "mask_nodata"
+
+masks:
+  weather_valid_mask:
+    long_name: "weather field validity mask"
+    unit: "binary"
+    current_firewxfm: true
+  static_valid_mask:
+    long_name: "static context validity mask"
+    unit: "binary"
+    current_firewxfm: true
+  target_observed_mask:
+    long_name: "target observation mask"
+    unit: "binary"
+    current_firewxfm: true
+    notes: "Required for sparse event/perimeter products; missing observation is not a negative."
+
+targets:
+  wildfire_active_fire_occupancy:
+    source: "nasa_firms"
+    prediction_unit: "grid_cell_time"
+    output_type: "binary_occupancy"
+    current_firewxfm: true
+    positive_definition: "one or more active-fire detections mapped to the target cell/time"
+  wildfire_active_fire_count:
+    source: "nasa_firms"
+    prediction_unit: "grid_cell_time"
+    output_type: "count"
+    current_firewxfm: false
+  wildfire_perimeter_area_fraction:
+    source: "wfigs"
+    prediction_unit: "grid_cell_time_or_event_time"
+    output_type: "area_fraction"
+    current_firewxfm: false
+    observation_mask_required: true
+  wildfire_final_burned_area:
+    source: "mtbs"
+    prediction_unit: "event"
+    output_type: "positive_scalar"
+    current_firewxfm: false
+  wildfire_burn_severity:
+    source: "mtbs"
+    prediction_unit: "grid_cell_or_event"
+    output_type: "ordinal_or_continuous"
+    current_firewxfm: false
+  pm25:
+    source: "epa_aqs_pm25"
+    prediction_unit: "station_time"
+    output_type: "continuous"
+    current_firewxfm: false
+  near_surface_temperature_and_exceedance:
+    source_candidates: ["merra2", "noaa_hrrr"]
+    prediction_unit: "grid_cell_time"
+    output_type: "continuous_temperature_and_threshold_exceedance"
+    current_firewxfm: false
+  smoke_plume_occupancy:
+    source: "noaa_hms"
+    prediction_unit: "grid_cell_day"
+    output_type: "binary_or_ordinal_smoke_density"
+    current_firewxfm: false
+  cyclone_track_point:
+    source_candidates: ["ibtracs", "hurdat2"]
+    prediction_unit: "storm_time"
+    output_type: "lat_lon_and_intensity"
+    current_firewxfm: false
+  drought_category:
+    source: "usdm"
+    prediction_unit: "grid_cell_or_polygon_week"
+    output_type: "ordinal_category"
+    current_firewxfm: false
