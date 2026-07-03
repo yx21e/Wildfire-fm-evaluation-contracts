@@ -66,7 +66,7 @@ The released serving run uses:
 - Phase shifts: all combinations of `0,4,8,12` along y and x.
 - Zeroed channels after normalization: `14,15`.
 
-The phase ensemble averages shifted overlapping-window predictions. This reduces dependence on tile origin and removes the center-dot pattern seen when a 32 by 32 training crop is incorrectly used as the CONUS inference tile.
+The phase ensemble averages shifted overlapping-window predictions. This reduces dependence on tile origin during full-domain inference.
 
 ## Output
 

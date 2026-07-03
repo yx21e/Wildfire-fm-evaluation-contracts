@@ -24,9 +24,6 @@ REQUIRED = [
 OPTIONAL = [
     "models/metadata/run_summary.json",
     "models/metadata/tile_summary.json",
-    "examples/external_comparison/rank_heatmaps_firewxfm_and_usgs_fdf.png",
-    "examples/external_comparison/rank_difference_usgs_minus_firewxfm.png",
-    "examples/external_comparison/external_fire_danger_summary.csv",
 ]
 
 

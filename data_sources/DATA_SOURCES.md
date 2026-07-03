@@ -1,24 +1,21 @@
 # Data Sources
 
-This repository documents the public source datasets used to build FireWx-FM inputs and evaluation resources. Raw source data are not redistributed. Users should download each resource from the original provider and follow the provider terms.
+This release documents the source datasets needed for the FireWx-FM active-fire occupancy model. Raw source data are not redistributed. Users should obtain each resource from the original provider and follow the provider terms.
 
 ## Source Inventory
 
 | Source | Role | Access |
 |---|---|---|
-| NOAA High-Resolution Rapid Refresh (HRRR) | Dynamic weather channels for the 5 km CONUS input grid. | NOAA/NCEI product page: <https://www.ncei.noaa.gov/products/weather-climate-models/high-resolution-rapid-refresh>; AWS Open Data archive: <https://registry.opendata.aws/noaa-hrrr-pds/>. |
-| NASA FIRMS active-fire detections | Active-fire detections used to derive gridded occupancy labels for training/evaluation. | FIRMS download and API services: <https://firms.modaps.eosdis.nasa.gov/download/> and <https://firms.modaps.eosdis.nasa.gov/api/>. |
+| NOAA High-Resolution Rapid Refresh (HRRR) | Dynamic weather input channels on the 5 km grid. | NOAA/NCEI product page: <https://www.ncei.noaa.gov/products/weather-climate-models/high-resolution-rapid-refresh>; AWS Open Data archive: <https://registry.opendata.aws/noaa-hrrr-pds/>. |
+| NASA FIRMS active-fire detections | Active-fire detections used to derive the occupancy target. | FIRMS download and API services: <https://firms.modaps.eosdis.nasa.gov/download/> and <https://firms.modaps.eosdis.nasa.gov/api/>. |
 | LANDFIRE 40 Fire Behavior Fuel Models | Static fuel-model input channel. | LANDFIRE data portal: <https://landfire.gov/data>. |
-| LANDFIRE canopy cover | Static canopy input channel. | LANDFIRE data portal: <https://landfire.gov/data>. |
-| Wildfire Risk to Communities housing-unit density | Static exposure input channel; zeroed in the final no-exposure serving run. | Wildfire Risk to Communities downloads: <https://wildfirerisk.org/download/>. |
-| LandScan Global 2024 | Static population input channel; zeroed in the final no-exposure serving run. | ORNL LandScan access: <https://landscan.ornl.gov/>. |
-| WFIGS incident/perimeter attributes | Event-level incident metadata for supporting wildfire tasks. | NIFC Open Data portal: <https://data-nifc.opendata.arcgis.com/>. |
-| MTBS burned area and burn severity | Event-scale burned-area and burn-severity records for supporting tasks. | MTBS data access: <https://www.mtbs.gov/> and <https://www.mtbs.gov/direct-download>. |
-| USGS fire-danger products | External same-scale sanity check against mature public fire-danger products. | USGS fire-danger forecast products and data portals. |
+| LANDFIRE canopy cover | Static canopy-cover input channel. | LANDFIRE data portal: <https://landfire.gov/data>. |
+| Wildfire Risk to Communities housing-unit density | Static exposure input channel; zeroed in final no-exposure serving. | Wildfire Risk to Communities downloads: <https://wildfirerisk.org/download/>. |
+| LandScan Global 2024 | Static population input channel; zeroed in final no-exposure serving. | ORNL LandScan access: <https://landscan.ornl.gov/>. |
 
-## Pretrained Input Channels
+## Input Channels
 
-The released model expects a fixed 16-channel tensor in `[channel, y, x]` order. Channel order matters.
+The released checkpoint expects a fixed 16-channel tensor in `[channel, y, x]` order.
 
 | Channel | Name | Dataset/source | Level or selection | Units | Serving treatment |
 |---:|---|---|---|---|---|
@@ -36,20 +33,12 @@ The released model expects a fixed 16-channel tensor in `[channel, y, x]` order.
 | 11 | `static_valid` | input builder | static-layer validity fraction | 0-1 | passed through |
 | 12 | `fuel_fbfm40` | LANDFIRE | fire-behavior fuel model | category code | passed through |
 | 13 | `canopy_cover` | LANDFIRE | canopy cover | percent | z-score normalized |
-| 14 | `housing_density` | Wildfire Risk to Communities | static exposure | provider native | z-score normalized, then zeroed in final no-exposure serving |
-| 15 | `population` | LandScan Global 2024 | static exposure | persons | z-score normalized, then zeroed in final no-exposure serving |
+| 14 | `housing_density` | Wildfire Risk to Communities | static exposure | provider native | z-score normalized, then zeroed |
+| 15 | `population` | LandScan Global 2024 | static exposure | persons | z-score normalized, then zeroed |
 
-The normalization statistics are stored in `models/metadata/input_normalization_stats.json`. The inference entry point applies those statistics before zeroing channels `14` and `15`.
-
-FIRMS detections are used to derive the occupancy target, not as an input channel. WFIGS and MTBS are event-level resources for supporting tasks and are not part of the 16-channel occupancy input.
-
-## Validity Masks
-
-`dynamic_valid` records dynamic weather-input validity after the cache-building step. `static_valid` records the fraction of static layers that remain valid after reprojection. Missing source values are sanitized before inference, and these mask channels preserve information about input support.
+FIRMS detections define the occupancy target and are not input channels.
 
 ## Static Resampling
-
-The cache template records the static resampling policy:
 
 | Static layer | Resampling |
 |---|---|
@@ -60,7 +49,6 @@ The cache template records the static resampling policy:
 
 ## Notes
 
-- The native model grid is Lower-48 CONUS, EPSG:5070, 5 km.
-- The released prediction target is 12-hour active-fire occupancy.
-- County and sub-county products should be generated by aggregating the 5 km probability grid after inference.
-- Access mechanisms and licensing may change; provider links are the authoritative source.
+- Native grid: Lower-48 CONUS, EPSG:5070, 5 km.
+- Prediction target: 12-hour active-fire occupancy probability.
+- County and sub-county products are post-inference aggregations of the 5 km probability grid.

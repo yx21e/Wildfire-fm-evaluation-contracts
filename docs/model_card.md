@@ -21,7 +21,6 @@ The released final model family was trained with chronological splitting over 20
 - Research evaluation of wildfire-focused gridded prediction.
 - CONUS-scale active-fire occupancy screening.
 - County or sub-county summaries produced from the native 5 km grid by transparent aggregation.
-- Comparison against external fire-danger products at common scale.
 
 ## Not Intended For
 
@@ -32,10 +31,9 @@ The released final model family was trained with chronological splitting over 20
 
 ## Data Boundary
 
-This repository does not redistribute raw source data. Users must obtain NOAA HRRR, NASA FIRMS, LANDFIRE, Wildfire Risk to Communities, LandScan, WFIGS, MTBS, and external comparison products from their original providers.
+This repository does not redistribute raw source data. Users must obtain NOAA HRRR, NASA FIRMS, LANDFIRE, Wildfire Risk to Communities, and LandScan resources from their original providers.
 
 ## Known Limitations
 
 - The native model is gridded at 5 km resolution; finer administrative summaries are aggregations, not new fine-scale predictions.
 - Output quality depends on correct reprojection, normalization, mask handling, and source-variable selection.
-- External fire-danger products measure related but different quantities, so same-scale comparisons should be interpreted as sanity checks rather than one-to-one target agreement.
