@@ -1,0 +1,35 @@
+{
+  "version": "firewxfm-conus-final-2026-06-29",
+  "tensor_order": "[channel, y, x]",
+  "channel_order_matters": true,
+  "channels": [
+    {"index": 0, "name": "t2m", "source": "NOAA HRRR", "description": "2 m air temperature", "unit": "K"},
+    {"index": 1, "name": "d2m", "source": "NOAA HRRR", "description": "2 m dew point temperature", "unit": "K"},
+    {"index": 2, "name": "u10", "source": "NOAA HRRR", "description": "10 m eastward wind component", "unit": "m s-1"},
+    {"index": 3, "name": "v10", "source": "NOAA HRRR", "description": "10 m northward wind component", "unit": "m s-1"},
+    {"index": 4, "name": "cape", "source": "NOAA HRRR", "description": "Convective available potential energy, 0-3000 m above ground layer", "unit": "J kg-1"},
+    {"index": 5, "name": "sp", "source": "NOAA HRRR", "description": "Surface pressure", "unit": "Pa"},
+    {"index": 6, "name": "blh", "source": "NOAA HRRR", "description": "Boundary-layer height", "unit": "m"},
+    {"index": 7, "name": "vis", "source": "NOAA HRRR", "description": "Visibility", "unit": "m"},
+    {"index": 8, "name": "prate", "source": "NOAA HRRR", "description": "Precipitation rate", "unit": "kg m-2 s-1"},
+    {"index": 9, "name": "tp", "source": "NOAA HRRR", "description": "Accumulated precipitation", "unit": "kg m-2"},
+    {"index": 10, "name": "dynamic_valid", "source": "input builder", "description": "Dynamic weather validity fraction", "unit": "0-1"},
+    {"index": 11, "name": "static_valid", "source": "input builder", "description": "Static-layer validity fraction after reprojection", "unit": "0-1"},
+    {"index": 12, "name": "fuel_fbfm40", "source": "LANDFIRE", "description": "Fire-behavior fuel model", "unit": "category code"},
+    {"index": 13, "name": "canopy_cover", "source": "LANDFIRE", "description": "Canopy cover", "unit": "percent"},
+    {"index": 14, "name": "housing_density", "source": "Wildfire Risk to Communities", "description": "Housing-unit density; zeroed in final no-exposure serving checkpoint", "unit": "provider native"},
+    {"index": 15, "name": "population", "source": "LandScan", "description": "Population; zeroed in final no-exposure serving checkpoint", "unit": "persons"}
+  ],
+  "target": {
+    "name": "wildfire_active_fire_occupancy",
+    "source": "NASA FIRMS",
+    "lead_hours": 12,
+    "definition": "one or more active-fire detections mapped to a 5 km grid cell at the target time"
+  },
+  "final_serving": {
+    "grid": "CONUS Lower-48, EPSG:5070, 5 km",
+    "normalization": "channels 0-9, 13, 14, and 15 use train-split z-score statistics from models/metadata/input_normalization_stats.json",
+    "zero_channels": [14, 15],
+    "inference": "overlap-window inference with modulo-16 phase ensemble"
+  }
+}

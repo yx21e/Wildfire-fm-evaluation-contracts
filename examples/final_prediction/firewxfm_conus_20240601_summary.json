@@ -1,0 +1,17 @@
+{
+  "probability_tif": "examples/final_prediction/firewxfm_conus_20240601_probability_5km_lower48.tif",
+  "heatmap_png": "examples/final_prediction/firewxfm_conus_20240601_heatmap.png",
+  "heatmap_rgb_tif": "examples/final_prediction/firewxfm_conus_20240601_heatmap_rgb.tif",
+  "shape": [
+    609,
+    938
+  ],
+  "outside_value": 0.0,
+  "mask_fraction": 0.5590800396329402,
+  "inside_mean": 0.06365417689085007,
+  "outside_original_mean": 0.012137886136770248,
+  "output_mean": 0.03558778017759323,
+  "output_max": 0.9046404957771301,
+  "output_q99": 0.4411426782608032,
+  "output_q999": 0.784302830696106
+}

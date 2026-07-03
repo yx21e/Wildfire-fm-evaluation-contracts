@@ -1,0 +1,23 @@
+{
+  "model_name": "FireWx-FM CONUS no-exposure serving checkpoint",
+  "release_tag": "firewxfm-conus-final-2026-06-29",
+  "checkpoint": "models/checkpoints/firewxfm_conus_lowposw_noexposure_seed42.pt",
+  "normalization_stats": "models/metadata/input_normalization_stats.json",
+  "grid": "Lower-48 CONUS, EPSG:5070, 5 km",
+  "lead_hours": 12,
+  "input_channels": 16,
+  "normalized_channels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 14, 15],
+  "serving_zero_channels": [14, 15],
+  "recommended_inference": {
+    "window": 256,
+    "stride": 64,
+    "halo": 32,
+    "phase_shifts": ["0,0", "0,4", "0,8", "0,12", "4,0", "4,4", "4,8", "4,12", "8,0", "8,4", "8,8", "8,12", "12,0", "12,4", "12,8", "12,12"]
+  },
+  "example_prediction_date": "2024-06-01",
+  "example_outputs": [
+    "examples/final_prediction/firewxfm_conus_20240601_probability_5km_lower48.tif",
+    "examples/final_prediction/firewxfm_conus_20240601_heatmap_rgb.tif",
+    "examples/final_prediction/firewxfm_conus_20240601_heatmap.png"
+  ]
+}

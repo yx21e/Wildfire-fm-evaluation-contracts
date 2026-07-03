@@ -1,0 +1,159 @@
+{
+  "index_root": "local CONUS 5 km HRRR/FIRMS cache; raw cache is not redistributed",
+  "tile_size": 32,
+  "num_train_tiles": 169854,
+  "positive_train_tiles": 24260,
+  "negative_train_tiles": 145594,
+  "input_channels": 16,
+  "positive_tile_placement": "random_containing",
+  "train_positive_rate": 0.0011426920785645319,
+  "metric_reference_positive_rate": 0.0001221809519002109,
+  "pos_weight_source": "tiles",
+  "positive_rate_source": "tiles",
+  "pos_weight": 10.0,
+  "loss_type": "bce",
+  "train_target_mode": "dilate_max",
+  "train_target_radius": 2,
+  "input_normalization": {
+    "enabled": true,
+    "method": "per-channel z-score",
+    "stats_source": "train split full maps",
+    "continuous_channel_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      13,
+      14,
+      15
+    ],
+    "eps": 1e-06,
+    "channels": [
+      {
+        "index": 0,
+        "name": "t2m",
+        "mean": 295.58303950541296,
+        "std": 6.594453491810887,
+        "count": 285273600
+      },
+      {
+        "index": 1,
+        "name": "d2m",
+        "mean": 288.80136209265663,
+        "std": 7.676135798532925,
+        "count": 285273600
+      },
+      {
+        "index": 2,
+        "name": "u10",
+        "mean": -0.11793715918198373,
+        "std": 3.202360372922017,
+        "count": 285273600
+      },
+      {
+        "index": 3,
+        "name": "v10",
+        "mean": 0.02186221694284171,
+        "std": 3.9899202727517045,
+        "count": 285273600
+      },
+      {
+        "index": 4,
+        "name": "cape",
+        "mean": 747.1427798436308,
+        "std": 1110.302235759119,
+        "count": 285273600
+      },
+      {
+        "index": 5,
+        "name": "sp",
+        "mean": 96817.92464269389,
+        "std": 6815.012582765496,
+        "count": 285273600
+      },
+      {
+        "index": 6,
+        "name": "blh",
+        "mean": 681.3271276792287,
+        "std": 684.6619485994495,
+        "count": 285273600
+      },
+      {
+        "index": 7,
+        "name": "vis",
+        "mean": 26947.73532776955,
+        "std": 20073.76628434421,
+        "count": 285273600
+      },
+      {
+        "index": 8,
+        "name": "prate",
+        "mean": 0.0,
+        "std": 1e-06,
+        "count": 285273600
+      },
+      {
+        "index": 9,
+        "name": "tp",
+        "mean": 0.0,
+        "std": 1e-06,
+        "count": 285273600
+      },
+      {
+        "index": 13,
+        "name": "canopy_cover",
+        "mean": 8.25561790505676,
+        "std": 21.45759831821086,
+        "count": 285273600
+      },
+      {
+        "index": 14,
+        "name": "housing_density",
+        "mean": 7.232399485711034,
+        "std": 62.62637229507992,
+        "count": 285273600
+      },
+      {
+        "index": 15,
+        "name": "population",
+        "mean": 14.228408365455689,
+        "std": 122.32549664182993,
+        "count": 285273600
+      }
+    ],
+    "channel_names": [
+      "t2m",
+      "d2m",
+      "u10",
+      "v10",
+      "cape",
+      "sp",
+      "blh",
+      "vis",
+      "prate",
+      "tp",
+      "firewx_valid",
+      "static_valid",
+      "fuel_fbfm40",
+      "canopy_cover",
+      "housing_density",
+      "population"
+    ],
+    "static_names": [
+      "fuel_fbfm40",
+      "canopy_cover",
+      "housing_density",
+      "population"
+    ]
+  },
+  "zero_input_channels": [
+    14,
+    15
+  ]
+}

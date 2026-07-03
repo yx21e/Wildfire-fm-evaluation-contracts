@@ -1,0 +1,71 @@
+{
+  "cache_root": "/path/to/local/firewx_fm_cache/conus_hrrr_us_5km_l12",
+  "firms_dir": "/path/to/firms_conus_three_hourly_csv",
+  "hrrr_roots": [
+    "/path/to/hrrr/2024",
+    "/path/to/optional/hrrr_backfill"
+  ],
+  "input_ranges": [
+    {
+      "start": "2024-06-01",
+      "end": "2024-10-30"
+    }
+  ],
+  "issue_hours": [
+    0,
+    6,
+    12,
+    18
+  ],
+  "target_offset_hours": 12,
+  "lat_min": 24.0,
+  "lat_max": 50.0,
+  "lon_min": -125.0,
+  "lon_max": -66.0,
+  "buffer_deg": 1.0,
+  "target_crs": "EPSG:5070",
+  "target_resolution_m": 5000,
+  "hrrr_vars": [
+    "t2m",
+    "d2m",
+    "u10",
+    "v10",
+    "cape",
+    "sp",
+    "blh",
+    "vis",
+    "prate",
+    "tp"
+  ],
+  "static_layers": {
+    "fuel_fbfm40": {
+      "path": "/path/to/LANDFIRE_FBFM40_CONUS.tif",
+      "resampling": "nearest"
+    },
+    "canopy_cover": {
+      "path": "/path/to/LANDFIRE_CC_CONUS.tif",
+      "resampling": "nearest"
+    },
+    "housing_density": {
+      "path": "/path/to/WRC_HUDen_CONUS.tif",
+      "resampling": "bilinear"
+    },
+    "population": {
+      "path": "/path/to/landscan-global-2024.tif",
+      "resampling": "bilinear"
+    }
+  },
+  "split_months": {
+    "train": [
+      6,
+      7,
+      8
+    ],
+    "val": [
+      9
+    ],
+    "test": [
+      10
+    ]
+  }
+}

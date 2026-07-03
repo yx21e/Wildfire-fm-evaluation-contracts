@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "FireWx-FM"
+message: "If you use this repository, please cite the FireWx-FM technical report or model release."
+type: software
+authors:
+  - family-names: Yang
+    given-names: X.
+date-released: 2026-07-02
+repository-code: "https://github.com/yx21e/Wildfire-fm-evaluation-contracts"
+abstract: "A wildfire-specialized gridded reference model for 12-hour active-fire occupancy prediction over the Lower 48 United States."

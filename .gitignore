@@ -1,5 +1,11 @@
 __pycache__/
-*/__pycache__/
 *.pyc
 .DS_Store
-.env
+.venv/
+tmp/
+*.npy
+*.npz
+*.idx
+*.grib2
+*.grb2
+*.nc
