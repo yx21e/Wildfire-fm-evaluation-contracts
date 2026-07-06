@@ -13,5 +13,12 @@
   "output_mean": 0.03558778017759323,
   "output_max": 0.9046404957771301,
   "output_q99": 0.4411426782608032,
-  "output_q999": 0.784302830696106
+  "output_q999": 0.784302830696106,
+  "visual_preview_scaling": {
+    "purpose": "display only; quantitative analysis should use the probability GeoTIFF",
+    "valid_mask": "finite probability values greater than 0",
+    "nonzero_q995_color_cap": 0.6502958020567863,
+    "gamma": 0.45,
+    "outside_mask_rgb": [244, 244, 239]
+  }
 }

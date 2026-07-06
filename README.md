@@ -7,6 +7,10 @@ FireWx-FM is a wildfire-specialized gridded model for short-lead **active-fire o
 </p>
 
 <p align="center">
+  <em>Visualization note: the preview is percentile-scaled for readability. Use the probability GeoTIFF for quantitative values.</em>
+</p>
+
+<p align="center">
   <b>Task:</b> active-fire occupancy &nbsp; | &nbsp;
   <b>Domain:</b> Lower-48 CONUS &nbsp; | &nbsp;
   <b>Grid:</b> EPSG:5070, 5 km &nbsp; | &nbsp;
@@ -86,8 +90,10 @@ The example output is a Lower-48 CONUS active-fire occupancy prediction for `202
 | File | Use |
 |---|---|
 | [`firewxfm_conus_20240601_probability_5km_lower48.tif`](examples/final_prediction/firewxfm_conus_20240601_probability_5km_lower48.tif) | Quantitative probability GeoTIFF. |
-| [`firewxfm_conus_20240601_heatmap.png`](examples/final_prediction/firewxfm_conus_20240601_heatmap.png) | Visual preview. |
-| [`firewxfm_conus_20240601_heatmap_rgb.tif`](examples/final_prediction/firewxfm_conus_20240601_heatmap_rgb.tif) | Georeferenced RGB heatmap. |
+| [`firewxfm_conus_20240601_heatmap.png`](examples/final_prediction/firewxfm_conus_20240601_heatmap.png) | Percentile-scaled visual preview. |
+| [`firewxfm_conus_20240601_heatmap_rgb.tif`](examples/final_prediction/firewxfm_conus_20240601_heatmap_rgb.tif) | Georeferenced RGB preview with the same display scaling. |
+
+The visual previews use the same probability raster but apply a robust display transform so low-probability regions remain visible. Blue regions indicate lower predicted 12-hour active-fire occupancy for this date; they are not missing data. The probability GeoTIFF is the authoritative quantitative output.
 
 Run the release check from the repository root:
 
