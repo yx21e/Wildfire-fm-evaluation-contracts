@@ -3,7 +3,7 @@
 FireWx-FM is a wildfire-specialized gridded model for short-lead **active-fire occupancy prediction** over the Lower 48 United States. The released checkpoint consumes a fixed 16-channel tensor on a 5 km EPSG:5070 grid and predicts the probability that each grid cell contains active fire at a 12-hour lead.
 
 <p align="center">
-  <img src="examples/final_prediction/firewxfm_conus_20240601_heatmap.png" width="760" alt="FireWx-FM CONUS active-fire occupancy heatmap for 2024-06-01">
+  <img src="examples/final_prediction/firewxfm_conus_20260706_t12_heatmap.png" width="760" alt="FireWx-FM CONUS active-fire occupancy heatmap for 2026-07-06 12Z">
 </p>
 
 <p align="center">
@@ -30,6 +30,7 @@ FireWx-FM is a wildfire-specialized gridded model for short-lead **active-fire o
 | Data source notes | [`data_sources/DATA_SOURCES.md`](data_sources/DATA_SOURCES.md) |
 | HRRR downloader | [`scripts/hrrr_downloader.py`](scripts/hrrr_downloader.py) |
 | Example output | [`examples/final_prediction/`](examples/final_prediction/) |
+| Technical report | [`technical_report/A_Wildfire_Foundation_Model_technical_report.pdf`](technical_report/A_Wildfire_Foundation_Model_technical_report.pdf) |
 | File checksums | [`release.sha256`](release.sha256) |
 
 Raw source datasets are not redistributed. Users should obtain the required NOAA HRRR, NASA FIRMS, LANDFIRE, Wildfire Risk to Communities, and LandScan resources from the original providers.
@@ -85,13 +86,13 @@ The 32 by 32 crop size used during training is not the serving tile size. For fu
 
 ## Example Output
 
-The example output is a Lower-48 CONUS active-fire occupancy prediction for `2024-06-01` using the final no-exposure serving contract.
+The example output is a Lower-48 CONUS active-fire occupancy prediction using `2026-07-06 12Z` HRRR input and a 12-hour lead to `2026-07-07 00Z`, under the no-exposure serving contract.
 
 | File | Use |
 |---|---|
-| [`firewxfm_conus_20240601_probability_5km_lower48.tif`](examples/final_prediction/firewxfm_conus_20240601_probability_5km_lower48.tif) | Quantitative probability GeoTIFF. |
-| [`firewxfm_conus_20240601_heatmap.png`](examples/final_prediction/firewxfm_conus_20240601_heatmap.png) | Percentile-scaled visual preview. |
-| [`firewxfm_conus_20240601_heatmap_rgb.tif`](examples/final_prediction/firewxfm_conus_20240601_heatmap_rgb.tif) | Georeferenced RGB preview with the same display scaling. |
+| [`firewxfm_conus_20260706_t12_probability_5km_lower48.tif`](examples/final_prediction/firewxfm_conus_20260706_t12_probability_5km_lower48.tif) | Quantitative probability GeoTIFF. |
+| [`firewxfm_conus_20260706_t12_heatmap.png`](examples/final_prediction/firewxfm_conus_20260706_t12_heatmap.png) | Percentile-scaled visual preview. |
+| [`firewxfm_conus_20260706_t12_heatmap_rgb.tif`](examples/final_prediction/firewxfm_conus_20260706_t12_heatmap_rgb.tif) | Georeferenced RGB preview with the same display scaling. |
 
 The visual previews use the same probability raster but apply a robust display transform so low-probability regions remain visible. Blue regions indicate lower predicted 12-hour active-fire occupancy for this date; they are not missing data. The probability GeoTIFF is the authoritative quantitative output.
 
@@ -121,9 +122,9 @@ The HRRR downloader can fetch public NOAA HRRR files or write a dry-run manifest
 
 ```bash
 python scripts/hrrr_downloader.py \
-  --start-date 2024-06-01 \
-  --end-date 2024-06-01 \
-  --hours 00,06,12,18 \
+  --start-date 2026-07-06 \
+  --end-date 2026-07-06 \
+  --hours 12 \
   --forecast-hours 00 \
   --include-idx \
   --output-root downloads/hrrr

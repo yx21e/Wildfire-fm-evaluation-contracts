@@ -14,10 +14,10 @@ REQUIRED = [
     "models/metadata/final_model_manifest.json",
     "models/metadata/input_normalization_stats.json",
     "models/checkpoints/firewxfm_conus_lowposw_noexposure_seed42.pt",
-    "examples/final_prediction/firewxfm_conus_20240601_probability_5km_lower48.tif",
-    "examples/final_prediction/firewxfm_conus_20240601_heatmap.png",
-    "examples/final_prediction/firewxfm_conus_20240601_heatmap_rgb.tif",
-    "examples/final_prediction/firewxfm_conus_20240601_summary.json",
+    "examples/final_prediction/firewxfm_conus_20260706_t12_probability_5km_lower48.tif",
+    "examples/final_prediction/firewxfm_conus_20260706_t12_heatmap.png",
+    "examples/final_prediction/firewxfm_conus_20260706_t12_heatmap_rgb.tif",
+    "examples/final_prediction/firewxfm_conus_20260706_t12_summary.json",
 ]
 
 
