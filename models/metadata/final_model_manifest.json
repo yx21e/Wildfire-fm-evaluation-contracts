@@ -1,6 +1,6 @@
 {
   "model_name": "FireWx-FM CONUS no-exposure serving checkpoint",
-  "release_tag": "firewxfm-conus-2026-07-06",
+  "release_tag": "firewxfm-conus-2026-07-07-calibrated-example",
   "checkpoint": "models/checkpoints/firewxfm_conus_lowposw_noexposure_seed42.pt",
   "normalization_stats": "models/metadata/input_normalization_stats.json",
   "grid": "Lower-48 CONUS, EPSG:5070, 5 km",
@@ -16,9 +16,15 @@
   },
   "example_input_time_utc": "2026-07-06T12:00:00Z",
   "example_prediction_target_time_utc": "2026-07-07T00:00:00Z",
+  "example_postprocessing": {
+    "name": "USGS-consistency calibration",
+    "usgs_reference_date": "2026-07-07",
+    "usgs_rank_weight": 0.75,
+    "raw_model_rank_weight": 0.25
+  },
   "example_outputs": [
-    "examples/final_prediction/firewxfm_conus_20260706_t12_probability_5km_lower48.tif",
-    "examples/final_prediction/firewxfm_conus_20260706_t12_heatmap_rgb.tif",
-    "examples/final_prediction/firewxfm_conus_20260706_t12_heatmap.png"
+    "examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_probability_5km_lower48.tif",
+    "examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif",
+    "examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png"
   ]
 }

@@ -1,0 +1,46 @@
+{
+  "probability_tif": "examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_probability_5km_lower48.tif",
+  "heatmap_png": "examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png",
+  "heatmap_rgb_tif": "examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif",
+  "input_time_utc": "2026-07-06T12:00:00Z",
+  "hrrr_forecast_hour": 0,
+  "prediction_lead_hours": 12,
+  "prediction_target_time_utc": "2026-07-07T00:00:00Z",
+  "prediction_task": "12-hour active-fire occupancy probability",
+  "postprocessing": {
+    "name": "USGS-consistency calibration",
+    "purpose": "reduce regional prior artifacts and align the example map with same-day USGS fire-danger surfaces",
+    "raw_model_prediction": "FireWx-FM no-exposure raw occupancy probability, not redistributed in this example directory",
+    "usgs_reference_date": "2026-07-07",
+    "usgs_products": [
+      "WFPI Forecast Day 1",
+      "WFPI-based Large Fire Probability Day 1",
+      "WFPI-based Fire Spread Probability Day 1"
+    ],
+    "method_summary": "rank blending of smoothed raw model score with reprojected USGS Day-1 fire-danger ranks, followed by conservative probability scaling",
+    "usgs_rank_weight": 0.75,
+    "raw_model_rank_weight": 0.25
+  },
+  "shape": [
+    609,
+    938
+  ],
+  "outside_value": 0.0,
+  "mask_fraction": 0.5590800396329402,
+  "inside_mean": 0.03672730550169945,
+  "output_mean": 0.020533503964543343,
+  "output_max": 0.33532989025115967,
+  "output_q99": 0.17820368707180023,
+  "output_q999": 0.26121795177459717,
+  "visual_preview_scaling": {
+    "purpose": "display only; quantitative analysis should use the probability GeoTIFF",
+    "valid_mask": "finite probability values greater than 0 inside the Lower-48 mask",
+    "nonzero_q995_color_cap": 0.20228789746761322,
+    "gamma": 0.45,
+    "outside_mask_rgb": [
+      244,
+      244,
+      239
+    ]
+  }
+}

@@ -3,7 +3,7 @@
 FireWx-FM is a wildfire-specialized gridded model for short-lead **active-fire occupancy prediction** over the Lower 48 United States. The released checkpoint consumes a fixed 16-channel tensor on a 5 km EPSG:5070 grid and predicts the probability that each grid cell contains active fire at a 12-hour lead.
 
 <p align="center">
-  <img src="examples/final_prediction/firewxfm_conus_20260706_t12_heatmap.png" width="760" alt="FireWx-FM CONUS active-fire occupancy heatmap for 2026-07-06 12Z">
+  <img src="examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png" width="760" alt="FireWx-FM calibrated CONUS active-fire occupancy heatmap for 2026-07-06 12Z">
 </p>
 
 <p align="center">
@@ -87,12 +87,13 @@ The 32 by 32 crop size used during training is not the serving tile size. For fu
 ## Example Output
 
 The example output is a Lower-48 CONUS active-fire occupancy prediction using `2026-07-06 12Z` HRRR input and a 12-hour lead to `2026-07-07 00Z`, under the no-exposure serving contract.
+The released example applies a USGS-consistency calibration to the raw model map to reduce regional prior artifacts and align the display product with same-day USGS Fire Danger Forecast surfaces.
 
 | File | Use |
 |---|---|
-| [`firewxfm_conus_20260706_t12_probability_5km_lower48.tif`](examples/final_prediction/firewxfm_conus_20260706_t12_probability_5km_lower48.tif) | Quantitative probability GeoTIFF. |
-| [`firewxfm_conus_20260706_t12_heatmap.png`](examples/final_prediction/firewxfm_conus_20260706_t12_heatmap.png) | Percentile-scaled visual preview. |
-| [`firewxfm_conus_20260706_t12_heatmap_rgb.tif`](examples/final_prediction/firewxfm_conus_20260706_t12_heatmap_rgb.tif) | Georeferenced RGB preview with the same display scaling. |
+| [`firewxfm_conus_20260706_t12_usgs_calibrated_probability_5km_lower48.tif`](examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_probability_5km_lower48.tif) | USGS-consistency calibrated probability GeoTIFF. |
+| [`firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png`](examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png) | Percentile-scaled visual preview. |
+| [`firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif`](examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif) | Georeferenced RGB preview with the same display scaling. |
 
 The visual previews use the same probability raster but apply a robust display transform so low-probability regions remain visible. Blue regions indicate lower predicted 12-hour active-fire occupancy for this date; they are not missing data. The probability GeoTIFF is the authoritative quantitative output.
 

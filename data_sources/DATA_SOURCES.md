@@ -12,6 +12,7 @@ This release documents the source datasets needed for the FireWx-FM active-fire 
 | LANDFIRE canopy cover | Static canopy-cover input channel. | LANDFIRE data portal: <https://landfire.gov/data>. |
 | Wildfire Risk to Communities housing-unit density | Static exposure input channel; zeroed in final no-exposure serving. | Wildfire Risk to Communities downloads: <https://wildfirerisk.org/download/>. |
 | LandScan Global 2024 | Static population input channel; zeroed in final no-exposure serving. | ORNL LandScan access: <https://landscan.ornl.gov/>. |
+| USGS Fire Danger Forecast | Used only for the calibrated example output, not as a training input channel. | USGS Fire Danger Forecast viewer and downloads: <https://firedanger.cr.usgs.gov/viewer/index.html>. |
 
 ## Input Channels
 

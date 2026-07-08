@@ -310,8 +310,8 @@ They should be reported as aggregations of the \(\grid\) output rather than as n
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.92\linewidth]{figures/firewxfm_conus_20260706_t12_heatmap.png}
-\caption{Example \model{} active-fire occupancy heatmap generated from 2026-07-06 12:00 UTC HRRR input, with a 12-hour lead to 2026-07-07 00:00 UTC. Brighter colors indicate higher predicted active-fire occupancy probability. The rendered image is percentile-scaled for visualization; quantitative analysis should use the probability raster.}
+\includegraphics[width=0.92\linewidth]{figures/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png}
+\caption{Example \model{} active-fire occupancy heatmap generated from 2026-07-06 12:00 UTC HRRR input, with a 12-hour lead to 2026-07-07 00:00 UTC. The example applies USGS-consistency calibration using same-day USGS Fire Danger Forecast surfaces~\cite{usgs_fire_danger_forecast}. Brighter colors indicate higher predicted active-fire occupancy probability. The rendered image is percentile-scaled for visualization; quantitative analysis should use the probability raster.}
 \label{fig:example_heatmap}
 \end{figure}
 
@@ -351,11 +351,12 @@ Top 10\% lift & 2.95 \\
 
 The example 2026-07-06 12:00 UTC probability raster has grid shape \(609\times938\).
 It predicts active-fire occupancy at a 12-hour lead, corresponding to 2026-07-07 00:00 UTC.
-Inside the Lower-48 mask, the mean probability is 0.0579.
-The maximum probability in the masked raster is 0.9370.
-The 99th and 99.9th percentiles of the masked raster are 0.4134 and 0.7550.
+For the public example, the raw model map is post-processed with a USGS-consistency calibration that blends the smoothed model rank with USGS WFPI, large-fire-probability, and fire-spread-probability ranks for 2026-07-07.
+Inside the Lower-48 mask, the calibrated mean probability is 0.0367.
+The maximum probability in the masked raster is 0.3353.
+The 99th and 99.9th percentiles of the masked raster are 0.1782 and 0.2612.
 These values describe one input time map and should not be interpreted as climatological frequencies.
-The rendered preview in Figure~\ref{fig:example_heatmap} uses the nonzero 99.5th percentile, 0.6217, as its upper color cap and gamma 0.45 for readability.
+The rendered preview in Figure~\ref{fig:example_heatmap} uses the nonzero 99.5th percentile, 0.2023, as its upper color cap and gamma 0.45 for readability.
 This display transform makes low-probability regions visible; it does not change the probability raster.
 
 \section{Use Boundary}
