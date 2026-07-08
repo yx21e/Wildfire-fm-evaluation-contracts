@@ -34,13 +34,22 @@
   "output_q999": 0.26121795177459717,
   "visual_preview_scaling": {
     "purpose": "display only; quantitative analysis should use the probability GeoTIFF",
-    "valid_mask": "finite probability values greater than 0 inside the Lower-48 mask",
-    "nonzero_q995_color_cap": 0.20228789746761322,
-    "gamma": 0.45,
+    "source_raster": "USGS-consistency calibrated probability GeoTIFF",
+    "method": "adaptive visual scaling that blends global robust scaling with longitude-band local contrast",
+    "note": "the PNG and RGB GeoTIFF are display products only; the adaptive transform is not a probability recalibration",
     "outside_mask_rgb": [
       244,
       244,
       239
     ]
+  },
+  "east_us_diagnostic": {
+    "conclusion": "East Coast and eastern U.S. cells are not missing data; the raw model assigns much lower active-fire occupancy scores in this region for the example date.",
+    "east_of_mississippi_dynamic_valid_mean": 1.0,
+    "east_of_mississippi_static_valid_mean": 0.9811841249465942,
+    "conus_raw_q99": 0.511862576007843,
+    "east_of_mississippi_raw_q99": 0.04575587436556816,
+    "conus_calibrated_q99": 0.17820368707180023,
+    "east_of_mississippi_calibrated_q99": 0.02043025568127632
   }
 }
