@@ -38,7 +38,7 @@
     "method": "discrete speckled raster rendering with cell-level categorical marks",
     "render_script": "scripts/render_speckled_risk_overlay.py",
     "seed": 20260709,
-    "spatial_method": "sparse deterministic cell-level rendering with jitter, micro-clusters, short streaks, fragmented warm classes, display omissions for low-salience cells, no Gaussian blur, and no smooth interpolation",
+    "spatial_method": "sparse patch-based categorical rendering with deterministic jitter, seed expansion, isolated-point suppression, display omissions, fragmented warm classes, no Gaussian blur, and no smooth interpolation",
     "palette": [
       "very_low_green",
       "low_green",
@@ -48,11 +48,11 @@
       "high_red_orange",
       "extreme_dark_red"
     ],
-    "within_mask_visual_gaps_fraction": 0.6589817453110812,
-    "rendered_overlay_fraction": 0.34101825468891875,
-    "green_family_fraction": 0.27887716441744684,
-    "yellow_orange_family_fraction": 0.05642045276638382,
-    "red_family_fraction": 0.005720637505087643,
+    "within_mask_visual_gaps_fraction": 0.7543820646898581,
+    "rendered_overlay_fraction": 0.2456179353101419,
+    "green_family_fraction": 0.1848263769295801,
+    "yellow_orange_family_fraction": 0.05843379152706892,
+    "red_family_fraction": 0.002357766853492814,
     "note": "the PNG and RGB GeoTIFF are display products only; no-overlay cells are visual omissions, not missing probability values, and the speckled transform is not a probability recalibration",
     "outside_mask_rgb": [
       244,

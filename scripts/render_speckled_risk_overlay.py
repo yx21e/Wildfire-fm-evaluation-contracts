@@ -3,9 +3,10 @@
 
 This script intentionally changes the *spatial rendering* of the visual preview:
 it does not blur or interpolate the probability raster into a smooth heatmap.
-Only a deterministic subset of input grid cells is rendered as small
+Only deterministic local patches of input grid cells are rendered as small
 categorical marks. Low-salience cells are omitted from the preview so the layer
-reads like many tiny point-like raster patches rather than a continuous sheet.
+reads like irregular clustered raster patches rather than a continuous sheet or
+single-pixel noise.
 The quantitative probability raster is not modified.
 """
 
@@ -88,7 +89,7 @@ def build_display_score(probability: np.ndarray, valid: np.ndarray, seed: int) -
     local_rank = longitude_band_rank(probability, valid)
 
     rng = np.random.default_rng(seed)
-    jitter = rng.uniform(-0.075, 0.075, size=probability.shape).astype(np.float32)
+    jitter = rng.uniform(-0.045, 0.045, size=probability.shape).astype(np.float32)
 
     # Deterministic micro-clusters and short streaks: these fragment large areas
     # without Gaussian smoothing or radial kernels.
@@ -136,22 +137,59 @@ def categorize(score: np.ndarray, valid: np.ndarray, seed: int) -> np.ndarray:
     moderate = (category == 3) & valid
     category[moderate & (texture < 0.16)] = 2
 
-    # Convert the categorical field into a point-like overlay by omitting many
-    # low-salience cells from the visual layer. Omitted cells still exist in the
-    # probability GeoTIFF; they are simply not painted in this display preview.
-    draw_probability = np.array([0.22, 0.32, 0.46, 0.66, 0.82, 0.93, 0.99], dtype=np.float32)
-    visible = texture < draw_probability[np.clip(category, 0, len(draw_probability) - 1)]
+    # Convert the categorical field into clustered overlay patches. Omitted cells
+    # still exist in the probability GeoTIFF; they are simply not painted in this
+    # display preview. Seed density rises with risk class, then each seed is
+    # expanded into a small irregular neighborhood to avoid salt-and-pepper noise.
+    seed_probability = np.array([0.006, 0.018, 0.045, 0.100, 0.180, 0.320, 0.500], dtype=np.float32)
+    score_weight = 0.05 + 1.10 * np.power(score, 1.35)
+    seed_threshold = seed_probability[np.clip(category, 0, len(seed_probability) - 1)] * score_weight
+    seed = (texture < seed_threshold) & valid
+    edge_noise = rng.random(score.shape)
+    visible = np.zeros(score.shape, dtype=bool)
+    for dy in range(-4, 5):
+        for dx in range(-4, 5):
+            dist = float(np.hypot(dy, dx))
+            if dist > 4.25:
+                continue
+            if dist == 0:
+                keep = 1.00
+            elif dist <= 1.5:
+                keep = 0.98
+            elif dist <= 2.5:
+                keep = 0.74
+            elif dist <= 3.5:
+                keep = 0.46
+            else:
+                keep = 0.24
+            # Break perfect circular edges without changing the underlying data.
+            keep *= 0.86 + 0.07 * ((abs(3 * dy + 5 * dx) % 5) / 4.0)
+            visible |= (shifted(seed.astype(np.float32), dy, dx) > 0) & (edge_noise < keep)
 
-    # Keep some short local continuity so clusters feel like multiple tiny
-    # adjacent raster marks rather than isolated confetti.
-    cluster_source = (visible & (category >= 3) & valid).astype(np.float32)
-    local_support = (
-        shifted(cluster_source, 1, 0)
-        + shifted(cluster_source, -1, 0)
-        + shifted(cluster_source, 0, 1)
-        + shifted(cluster_source, 0, -1)
-    )
-    visible |= ((local_support > 0) & (texture < 0.18 + 0.15 * score) & valid)
+    # High classes get a little more local body, but still with fragmented edges.
+    warm_seed = seed & (category >= 4)
+    warm_noise = rng.random(score.shape)
+    for dy, dx, keep in [
+        (2, 2, 0.34),
+        (-2, 2, 0.30),
+        (2, -2, 0.30),
+        (3, 0, 0.28),
+        (0, 3, 0.28),
+        (4, 1, 0.18),
+        (1, 4, 0.18),
+        (-4, 0, 0.14),
+        (0, -4, 0.14),
+    ]:
+        visible |= (shifted(warm_seed.astype(np.float32), dy, dx) > 0) & (warm_noise < keep)
+
+    neighbor_count = np.zeros(score.shape, dtype=np.float32)
+    for dy, dx in [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]:
+        neighbor_count += shifted(visible.astype(np.float32), dy, dx)
+    isolated_low = visible & (neighbor_count < 2) & (category < 4)
+    visible[isolated_low] = False
+
+    fill_noise = rng.random(score.shape)
+    visible |= (neighbor_count >= 3) & valid & (fill_noise < 0.22 + 0.14 * score)
 
     category[valid & ~visible] = 255
     return category
@@ -201,7 +239,7 @@ def write_summary(path: Path, score: np.ndarray, category: np.ndarray, valid: np
     summary = {
         "renderer": "discrete_speckled_risk_overlay",
         "seed": seed,
-        "spatial_method": "sparse cell-level categorical rendering with deterministic jitter, micro-clusters, short streaks, display omissions, fragmented warm classes, and no Gaussian blur/interpolation",
+        "spatial_method": "sparse patch-based categorical rendering with deterministic jitter, seed expansion, isolated-point suppression, display omissions, fragmented warm classes, and no Gaussian blur/interpolation",
         "palette": labels,
         "valid_cells": total,
         "within_mask_visual_gaps": {"cells": gaps, "fraction_of_valid": gaps / total if total else 0.0},
