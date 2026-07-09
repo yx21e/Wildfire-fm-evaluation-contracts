@@ -3,11 +3,11 @@
 FireWx-FM is a wildfire-specialized gridded model for short-lead **active-fire occupancy prediction** over the Lower 48 United States. The released checkpoint consumes a fixed 16-channel tensor on a 5 km EPSG:5070 grid and predicts the probability that each grid cell contains active fire at a 12-hour lead.
 
 <p align="center">
-  <img src="examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png" width="760" alt="FireWx-FM calibrated CONUS active-fire occupancy heatmap for 2026-07-06 12Z">
+  <img src="examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png" width="760" alt="FireWx-FM calibrated CONUS active-fire occupancy speckled raster overlay for 2026-07-06 12Z">
 </p>
 
 <p align="center">
-  <em>Visualization note: the preview uses adaptive display scaling for readability. Use the probability GeoTIFF for quantitative values.</em>
+  <em>Visualization note: the preview uses discrete speckled raster rendering for readability. Use the probability GeoTIFF for quantitative values.</em>
 </p>
 
 <p align="center">
@@ -92,10 +92,10 @@ The released example applies a USGS-consistency calibration to the raw model map
 | File | Use |
 |---|---|
 | [`firewxfm_conus_20260706_t12_usgs_calibrated_probability_5km_lower48.tif`](examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_probability_5km_lower48.tif) | USGS-consistency calibrated probability GeoTIFF. |
-| [`firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png`](examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png) | Adaptive visual preview. |
+| [`firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png`](examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png) | Discrete speckled raster preview. |
 | [`firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif`](examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif) | Georeferenced RGB preview with the same display scaling. |
 
-The visual previews use the same probability raster but apply a display-only transform that blends global scaling with longitude-band local contrast, so low-probability regional structure remains visible. Blue regions indicate lower predicted 12-hour active-fire occupancy for this date; they are not missing data. The probability GeoTIFF is the authoritative quantitative output.
+The visual previews use the same probability raster but render it as a display-only, green-dominant, categorical speckled overlay. The renderer preserves cell-level heterogeneity, uses deterministic jitter and small micro-clusters, avoids Gaussian blur/interpolation, and fragments warm colors into localized yellow, orange, and red pockets. Green regions indicate lower predicted 12-hour active-fire occupancy for this date; they are not missing data. The probability GeoTIFF is the authoritative quantitative output.
 
 Run the release check from the repository root:
 

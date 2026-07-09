@@ -311,7 +311,7 @@ They should be reported as aggregations of the \(\grid\) output rather than as n
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.92\linewidth]{figures/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png}
-\caption{Example \model{} active-fire occupancy heatmap generated from 2026-07-06 12:00 UTC HRRR input, with a 12-hour lead to 2026-07-07 00:00 UTC. The example applies USGS-consistency calibration using same-day USGS Fire Danger Forecast surfaces~\cite{usgs_fire_danger_forecast}. Brighter colors indicate higher displayed active-fire occupancy probability within the visualization transform. The rendered image uses adaptive display scaling for readability; quantitative analysis should use the probability raster.}
+\caption{Example \model{} active-fire occupancy overlay generated from 2026-07-06 12:00 UTC HRRR input, with a 12-hour lead to 2026-07-07 00:00 UTC. The example applies USGS-consistency calibration using same-day USGS Fire Danger Forecast surfaces~\cite{usgs_fire_danger_forecast}. The rendered image uses a green-dominant discrete speckled raster display: cell-level categorical marks, deterministic micro-texture, fragmented warm-color pockets, and no Gaussian blur or smooth interpolation. Quantitative analysis should use the probability raster.}
 \label{fig:example_heatmap}
 \end{figure}
 
@@ -356,8 +356,9 @@ Inside the Lower-48 mask, the calibrated mean probability is 0.0367.
 The maximum probability in the masked raster is 0.3353.
 The 99th and 99.9th percentiles of the masked raster are 0.1782 and 0.2612.
 These values describe one input time map and should not be interpreted as climatological frequencies.
-The rendered preview in Figure~\ref{fig:example_heatmap} uses a display-only transform that blends global probability scaling with longitude-band local contrast.
-This transform makes low-probability regional structure, including eastern U.S. spatial variation, visible in the preview; it does not change the probability raster.
+The rendered preview in Figure~\ref{fig:example_heatmap} uses a display-only discrete speckled raster transform.
+It converts the calibrated probability field into small categorical cell marks with deterministic jitter, micro-clusters, short streaks, fragmented edges, and a green-to-yellow-to-orange-to-red wildfire-risk palette.
+This rendering makes low-probability regional structure, including eastern U.S. spatial variation, visible in the preview without turning the map into a smooth continuous heatmap; it does not change the probability raster.
 The eastern U.S. is not masked or missing in the input stack.
 Diagnostic checks show valid dynamic weather support and static-layer support over the region, while the raw model assigns much lower active-fire occupancy scores east of the Mississippi than in the western U.S. for this example date.
 
@@ -475,7 +476,7 @@ Normalization statistics & Records train-split z-score statistics for continuous
 Inference code & Applies normalization, no-exposure serving, overlap-window prediction, and phase averaging. \\
 Training code & Documents cache construction, sparse-label crop sampling, objective functions, and optimization. \\
 Example probability raster & Provides a quantitative \(\grid\) probability output for one CONUS time map. \\
-Rendered heatmap & Provides an adaptive visual preview of the same probability output. \\
+Rendered heatmap & Provides a discrete speckled raster preview of the same probability output. \\
 Data-source notes & Point users to the original data providers; raw source data are not redistributed. \\
 \bottomrule
 \end{tabularx}

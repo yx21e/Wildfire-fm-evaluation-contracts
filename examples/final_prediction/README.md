@@ -8,10 +8,10 @@ The example applies USGS-consistency calibration to the raw FireWx-FM map using 
 | File | Description |
 |---|---|
 | `firewxfm_conus_20260706_t12_usgs_calibrated_probability_5km_lower48.tif` | Lower-48 masked calibrated probability GeoTIFF. |
-| `firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif` | Adaptive RGB preview GeoTIFF. |
-| `firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png` | Adaptive PNG preview for quick inspection. |
+| `firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif` | Discrete speckled RGB preview GeoTIFF. |
+| `firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png` | Discrete speckled PNG preview for quick inspection. |
 | `firewxfm_conus_20260706_t12_usgs_calibrated_summary.json` | Summary statistics and calibration metadata for the prediction. |
 
 The example is generated with the no-exposure serving contract: channels `14` and `15` are zeroed, inference uses overlap windows, and modulo-16 phase averaging is applied before writing the map.
 
-The PNG and RGB GeoTIFF are for visualization only. They use an adaptive display transform that blends global probability scaling with longitude-band local contrast, so lower-probability regional structure remains visible. Blue regions indicate lower predicted 12-hour active-fire occupancy for this date, not missing data. Use the probability GeoTIFF for quantitative analysis.
+The PNG and RGB GeoTIFF are for visualization only. They use discrete speckled raster rendering: no Gaussian blur, no smooth interpolation, a green-dominant categorical palette, deterministic cell-level jitter, small micro-clusters, and fragmented warm-color pockets. Green regions indicate lower predicted 12-hour active-fire occupancy for this date, not missing data. Use the probability GeoTIFF for quantitative analysis.
