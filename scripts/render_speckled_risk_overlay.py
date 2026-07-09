@@ -135,11 +135,8 @@ def categorize(score: np.ndarray, valid: np.ndarray, seed: int) -> np.ndarray:
     moderate = (category == 3) & valid
     category[moderate & (texture < 0.16)] = 2
 
-    # Natural sparse gaps in the lowest-risk cells, not in high-risk pockets.
-    very_low = (category == 0) & valid
-    low = (category == 1) & valid
-    category[very_low & (texture < 0.020)] = 255
-    category[low & (texture < 0.006)] = 255
+    # Do not create interior white gaps: white is reserved for true background
+    # outside the valid mask, so the preview cannot be mistaken for missing data.
     return category
 
 

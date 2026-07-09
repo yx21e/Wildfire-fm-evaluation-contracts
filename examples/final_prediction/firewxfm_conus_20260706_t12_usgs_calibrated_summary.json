@@ -38,7 +38,7 @@
     "method": "discrete speckled raster rendering with cell-level categorical marks",
     "render_script": "scripts/render_speckled_risk_overlay.py",
     "seed": 20260709,
-    "spatial_method": "deterministic cell-level jitter, micro-clusters, short streaks, fragmented warm classes, no Gaussian blur, and no smooth interpolation",
+    "spatial_method": "deterministic cell-level jitter, micro-clusters, short streaks, fragmented warm classes, no Gaussian blur, no smooth interpolation, and no interior white gaps",
     "palette": [
       "very_low_green",
       "low_green",
@@ -48,8 +48,8 @@
       "high_red_orange",
       "extreme_dark_red"
     ],
-    "within_mask_visual_gaps_fraction": 0.010489401008234962,
-    "green_family_fraction": 0.8957353539781445,
+    "within_mask_visual_gaps_fraction": 0.0,
+    "green_family_fraction": 0.9062247549863793,
     "yellow_orange_family_fraction": 0.08805460750853242,
     "red_family_fraction": 0.005720637505087643,
     "note": "the PNG and RGB GeoTIFF are display products only; the speckled transform is not a probability recalibration",
