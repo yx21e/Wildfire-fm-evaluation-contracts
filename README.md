@@ -95,7 +95,7 @@ The released example applies a USGS-consistency calibration to the raw model map
 | [`firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png`](examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png) | Discrete speckled raster preview. |
 | [`firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif`](examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif) | Georeferenced RGB preview with the same display scaling. |
 
-The visual previews use the same probability raster but render it as a display-only, green-dominant, categorical speckled overlay. The renderer preserves cell-level heterogeneity, uses deterministic jitter and small micro-clusters, avoids Gaussian blur/interpolation, and fragments warm colors into localized yellow, orange, and red pockets. Green regions indicate lower predicted 12-hour active-fire occupancy for this date; they are not missing data. The probability GeoTIFF is the authoritative quantitative output.
+The visual previews use the same probability raster but render it as a display-only, sparse, green-dominant, categorical speckled overlay. The renderer preserves cell-level heterogeneity, uses deterministic jitter and small micro-clusters, avoids Gaussian blur/interpolation, and fragments warm colors into localized yellow, orange, and red pockets. Areas with no overlay are visual omissions for low-salience cells, not missing probability data. Green marks indicate lower displayed 12-hour active-fire occupancy for this date. The probability GeoTIFF is the authoritative quantitative output.
 
 Run the release check from the repository root:
 

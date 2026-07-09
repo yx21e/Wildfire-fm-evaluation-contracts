@@ -311,7 +311,7 @@ They should be reported as aggregations of the \(\grid\) output rather than as n
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.92\linewidth]{figures/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png}
-\caption{Example \model{} active-fire occupancy overlay generated from 2026-07-06 12:00 UTC HRRR input, with a 12-hour lead to 2026-07-07 00:00 UTC. The example applies USGS-consistency calibration using same-day USGS Fire Danger Forecast surfaces~\cite{usgs_fire_danger_forecast}. The rendered image uses a green-dominant discrete speckled raster display: cell-level categorical marks, deterministic micro-texture, fragmented warm-color pockets, and no Gaussian blur or smooth interpolation. Quantitative analysis should use the probability raster.}
+\caption{Example \model{} active-fire occupancy overlay generated from 2026-07-06 12:00 UTC HRRR input, with a 12-hour lead to 2026-07-07 00:00 UTC. The example applies USGS-consistency calibration using same-day USGS Fire Danger Forecast surfaces~\cite{usgs_fire_danger_forecast}. The rendered image uses a sparse green-dominant discrete speckled raster display: cell-level categorical marks, deterministic micro-texture, display omissions for low-salience cells, fragmented warm-color pockets, and no Gaussian blur or smooth interpolation. Quantitative analysis should use the probability raster.}
 \label{fig:example_heatmap}
 \end{figure}
 
@@ -357,8 +357,9 @@ The maximum probability in the masked raster is 0.3353.
 The 99th and 99.9th percentiles of the masked raster are 0.1782 and 0.2612.
 These values describe one input time map and should not be interpreted as climatological frequencies.
 The rendered preview in Figure~\ref{fig:example_heatmap} uses a display-only discrete speckled raster transform.
-It converts the calibrated probability field into small categorical cell marks with deterministic jitter, micro-clusters, short streaks, fragmented edges, and a green-to-yellow-to-orange-to-red wildfire-risk palette.
-This rendering makes low-probability regional structure, including eastern U.S. spatial variation, visible in the preview without turning the map into a smooth continuous heatmap; it does not change the probability raster.
+It converts the calibrated probability field into sparse categorical cell marks with deterministic jitter, micro-clusters, short streaks, fragmented edges, display omissions, and a green-to-yellow-to-orange-to-red wildfire-risk palette.
+This rendering makes local spatial texture visible in the preview without turning the map into a smooth continuous heatmap; it does not change the probability raster.
+Areas without overlay in the preview are visual omissions for low-salience cells rather than missing probability values.
 The eastern U.S. is not masked or missing in the input stack.
 Diagnostic checks show valid dynamic weather support and static-layer support over the region, while the raw model assigns much lower active-fire occupancy scores east of the Mississippi than in the western U.S. for this example date.
 

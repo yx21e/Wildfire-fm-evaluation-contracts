@@ -14,4 +14,4 @@ The example applies USGS-consistency calibration to the raw FireWx-FM map using 
 
 The example is generated with the no-exposure serving contract: channels `14` and `15` are zeroed, inference uses overlap windows, and modulo-16 phase averaging is applied before writing the map.
 
-The PNG and RGB GeoTIFF are for visualization only. They use discrete speckled raster rendering: no Gaussian blur, no smooth interpolation, a green-dominant categorical palette, deterministic cell-level jitter, small micro-clusters, and fragmented warm-color pockets. Green regions indicate lower predicted 12-hour active-fire occupancy for this date, not missing data. Use the probability GeoTIFF for quantitative analysis.
+The PNG and RGB GeoTIFF are for visualization only. They use sparse discrete speckled raster rendering: no Gaussian blur, no smooth interpolation, a green-dominant categorical palette, deterministic cell-level jitter, small micro-clusters, fragmented warm-color pockets, and display omissions for low-salience cells. Areas with no overlay are not missing probability data. Use the probability GeoTIFF for quantitative analysis.

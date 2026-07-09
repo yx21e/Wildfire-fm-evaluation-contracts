@@ -3,8 +3,9 @@
 
 This script intentionally changes the *spatial rendering* of the visual preview:
 it does not blur or interpolate the probability raster into a smooth heatmap.
-Each input grid cell is rendered as a small categorical mark with deterministic
-cell-level texture, fragmented high-risk pockets, and a green-dominant palette.
+Only a deterministic subset of input grid cells is rendered as small
+categorical marks. Low-salience cells are omitted from the preview so the layer
+reads like many tiny point-like raster patches rather than a continuous sheet.
 The quantitative probability raster is not modified.
 """
 
@@ -135,8 +136,24 @@ def categorize(score: np.ndarray, valid: np.ndarray, seed: int) -> np.ndarray:
     moderate = (category == 3) & valid
     category[moderate & (texture < 0.16)] = 2
 
-    # Do not create interior white gaps: white is reserved for true background
-    # outside the valid mask, so the preview cannot be mistaken for missing data.
+    # Convert the categorical field into a point-like overlay by omitting many
+    # low-salience cells from the visual layer. Omitted cells still exist in the
+    # probability GeoTIFF; they are simply not painted in this display preview.
+    draw_probability = np.array([0.22, 0.32, 0.46, 0.66, 0.82, 0.93, 0.99], dtype=np.float32)
+    visible = texture < draw_probability[np.clip(category, 0, len(draw_probability) - 1)]
+
+    # Keep some short local continuity so clusters feel like multiple tiny
+    # adjacent raster marks rather than isolated confetti.
+    cluster_source = (visible & (category >= 3) & valid).astype(np.float32)
+    local_support = (
+        shifted(cluster_source, 1, 0)
+        + shifted(cluster_source, -1, 0)
+        + shifted(cluster_source, 0, 1)
+        + shifted(cluster_source, 0, -1)
+    )
+    visible |= ((local_support > 0) & (texture < 0.18 + 0.15 * score) & valid)
+
+    category[valid & ~visible] = 255
     return category
 
 
@@ -184,7 +201,7 @@ def write_summary(path: Path, score: np.ndarray, category: np.ndarray, valid: np
     summary = {
         "renderer": "discrete_speckled_risk_overlay",
         "seed": seed,
-        "spatial_method": "cell-level categorical rendering with deterministic jitter, micro-clusters, short streaks, fragmented warm classes, and no Gaussian blur/interpolation",
+        "spatial_method": "sparse cell-level categorical rendering with deterministic jitter, micro-clusters, short streaks, display omissions, fragmented warm classes, and no Gaussian blur/interpolation",
         "palette": labels,
         "valid_cells": total,
         "within_mask_visual_gaps": {"cells": gaps, "fraction_of_valid": gaps / total if total else 0.0},
