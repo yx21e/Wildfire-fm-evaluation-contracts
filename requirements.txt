@@ -4,3 +4,4 @@ rasterio
 geopandas
 pyyaml
 pillow
+scipy
