@@ -27,9 +27,13 @@ FireWx-FM is a wildfire-specialized gridded model for short-lead **active-fire o
 | Inference code | [`firewxfm/`](firewxfm/) |
 | Inference contract | [`docs/inference_contract.md`](docs/inference_contract.md) |
 | Serving notes | [`docs/serving_notes.md`](docs/serving_notes.md) |
+| FM refinement plan | [`docs/fm_refinement_experiment_plan.md`](docs/fm_refinement_experiment_plan.md) |
+| Split design | [`docs/split_design.md`](docs/split_design.md) |
+| Reproducibility manifest | [`docs/reproducibility_manifest.md`](docs/reproducibility_manifest.md) |
 | Data source notes | [`data_sources/DATA_SOURCES.md`](data_sources/DATA_SOURCES.md) |
 | HRRR downloader | [`scripts/hrrr_downloader.py`](scripts/hrrr_downloader.py) |
-| Example output | [`examples/final_prediction/`](examples/final_prediction/) |
+| FIRMS target-hour converter | [`scripts/prepare_firms_target_hour_csvs.py`](scripts/prepare_firms_target_hour_csvs.py) |
+| Example output | [`examples/staticfix_conus_candidate_20260812/`](examples/staticfix_conus_candidate_20260812/) |
 | Technical report | [`technical_report/A_Wildfire_Foundation_Model_technical_report.pdf`](technical_report/A_Wildfire_Foundation_Model_technical_report.pdf) |
 | File checksums | [`release.sha256`](release.sha256) |
 
@@ -132,6 +136,39 @@ python scripts/hrrr_downloader.py \
 ```
 
 The full 16-channel stack also requires FIRMS-derived labels for training and static rasters from LANDFIRE, Wildfire Risk to Communities, and LandScan. See [`data_sources/DATA_SOURCES.md`](data_sources/DATA_SOURCES.md).
+
+If FIRMS detections are stored as daily CSV files, convert them to target-hour
+label files before building training caches:
+
+```bash
+python scripts/prepare_firms_target_hour_csvs.py \
+  --daily-dir /path/to/firms_daily_csv \
+  --output-dir /path/to/firms_target_hour_csv \
+  --config training/configs/stage1_cache_conus_multiyear_template.json
+```
+
+## Refinement Experiments
+
+The next FireWx-FM refinement phase is organized around CONUS multi-year training,
+cross-year evaluation, region-disjoint evaluation, baselines, ablations, and
+reproducibility checks. On UF/HPC, do not run data conversion or cache building
+on login nodes; submit the smoke test through Slurm:
+
+```bash
+bash slurm/submit_firewxfm_2024_pilot_smoke.sh
+```
+
+For non-HPC development machines or interactive compute-node sessions, start
+with the Phase-0 audit before building caches:
+
+```bash
+python scripts/audit_firewxfm_phase0.py \
+  --config training/configs/stage1_cache_conus_multiyear_template.json \
+  --output artifacts/manifests/phase0_data_split_audit.json
+```
+
+See [`docs/fm_refinement_experiment_plan.md`](docs/fm_refinement_experiment_plan.md)
+for the full execution plan.
 
 ## Citation
 

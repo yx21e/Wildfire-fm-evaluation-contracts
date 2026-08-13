@@ -41,12 +41,13 @@ OPTIONAL = [
     "scripts/build_5km_input_stack.py",
     "scripts/audit_firewxfm_longitude_seams.py",
     "scripts/make_firewxfm_central_feathered_candidate.py",
-    "docs/firewxfm_staticfix_central_handoff_20260812.md",
-    "examples/staticfix_central_candidate_20260812/README.md",
-    "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_central_feathered_probability_lower48.tif",
-    "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_central_feathered_longitude_audit.json",
-    "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_balanced_probability_lower48.tif",
-    "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_balanced_longitude_audit.json",
+    "scripts/make_firewxfm_conus_feathered_candidate.py",
+    "docs/firewxfm_staticfix_conus_handoff_20260812.md",
+    "examples/staticfix_conus_candidate_20260812/README.md",
+    "examples/staticfix_conus_candidate_20260812/firewxfm_20260707_t12_staticfix_conus_probability_lower48.tif",
+    "examples/staticfix_conus_candidate_20260812/firewxfm_20260707_t12_staticfix_conus_longitude_audit.json",
+    "examples/staticfix_conus_candidate_20260812/firewxfm_20260707_t12_staticfix_conus_baseline_probability_lower48.tif",
+    "examples/staticfix_conus_candidate_20260812/firewxfm_20260707_t12_staticfix_conus_summary.json",
 ]
 
 

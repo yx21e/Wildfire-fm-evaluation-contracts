@@ -18,12 +18,12 @@
   "example_prediction_target_time_utc": "2026-07-08T00:00:00Z",
   "example_postprocessing": {
     "name": "source_probability_logit_shift_with_smooth_lon_lat_gate",
-    "calibration_region": "Rockies/Great-Plains central seam repair",
-    "source": "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_central_feathered_probability_lower48.tif"
+    "calibration_region": "CONUS seam repair including Rockies/Great-Plains and East",
+    "source": "examples/staticfix_conus_candidate_20260812/firewxfm_20260707_t12_staticfix_conus_probability_lower48.tif"
   },
   "example_outputs": [
-    "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_balanced_probability_lower48.tif",
-    "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_central_feathered_probability_lower48.tif",
-    "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_central_feathered_longitude_audit.json"
+    "examples/staticfix_conus_candidate_20260812/firewxfm_20260707_t12_staticfix_conus_baseline_probability_lower48.tif",
+    "examples/staticfix_conus_candidate_20260812/firewxfm_20260707_t12_staticfix_conus_probability_lower48.tif",
+    "examples/staticfix_conus_candidate_20260812/firewxfm_20260707_t12_staticfix_conus_longitude_audit.json"
   ]
 }
