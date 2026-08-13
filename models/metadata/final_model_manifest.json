@@ -1,7 +1,7 @@
 {
-  "model_name": "FireWx-FM CONUS no-exposure serving checkpoint",
-  "release_tag": "firewxfm-conus-2026-07-07-calibrated-example",
-  "checkpoint": "models/checkpoints/firewxfm_conus_lowposw_noexposure_seed42.pt",
+  "model_name": "FireWx-FM CONUS staticfix-balanced serving checkpoint",
+  "release_tag": "firewxfm-conus-2026-08-12-staticfix-balanced",
+  "checkpoint": "models/checkpoints/firewxfm_2024_staticfix_region_balanced_bce_seed42.pt",
   "normalization_stats": "models/metadata/input_normalization_stats.json",
   "grid": "Lower-48 CONUS, EPSG:5070, 5 km",
   "lead_hours": 12,
@@ -14,17 +14,16 @@
     "halo": 32,
     "phase_shifts": ["0,0", "0,4", "0,8", "0,12", "4,0", "4,4", "4,8", "4,12", "8,0", "8,4", "8,8", "8,12", "12,0", "12,4", "12,8", "12,12"]
   },
-  "example_input_time_utc": "2026-07-06T12:00:00Z",
-  "example_prediction_target_time_utc": "2026-07-07T00:00:00Z",
+  "example_input_time_utc": "2026-07-07T12:00:00Z",
+  "example_prediction_target_time_utc": "2026-07-08T00:00:00Z",
   "example_postprocessing": {
-    "name": "USGS-consistency calibration",
-    "usgs_reference_date": "2026-07-07",
-    "usgs_rank_weight": 0.75,
-    "raw_model_rank_weight": 0.25
+    "name": "source_probability_logit_shift_with_smooth_lon_lat_gate",
+    "calibration_region": "Rockies/Great-Plains central seam repair",
+    "source": "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_central_feathered_probability_lower48.tif"
   },
   "example_outputs": [
-    "examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_probability_5km_lower48.tif",
-    "examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap_rgb.tif",
-    "examples/final_prediction/firewxfm_conus_20260706_t12_usgs_calibrated_heatmap.png"
+    "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_balanced_probability_lower48.tif",
+    "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_central_feathered_probability_lower48.tif",
+    "examples/staticfix_central_candidate_20260812/firewxfm_20260707_t12_staticfix_central_feathered_longitude_audit.json"
   ]
 }

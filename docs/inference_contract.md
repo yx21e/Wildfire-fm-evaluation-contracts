@@ -59,12 +59,15 @@ These masks are not model outputs. They are input features that let the model di
 
 The released serving run uses:
 
-- Checkpoint: `models/checkpoints/firewxfm_conus_lowposw_noexposure_seed42.pt`.
+- Checkpoint: `models/checkpoints/firewxfm_2024_staticfix_region_balanced_bce_seed42.pt`.
 - Window: `256`.
 - Stride: `64`.
 - Halo: `32`.
 - Phase shifts: all combinations of `0,4,8,12` along y and x.
 - Zeroed channels after normalization: `14,15`.
+
+Production live preprocessing should use `scripts/build_5km_input_stack.py` to
+repair the 16-channel stack with the corrected static cache before inference.
 
 The phase ensemble averages shifted overlapping-window predictions. This reduces dependence on tile origin during full-domain inference.
 
